@@ -1,3 +1,5 @@
+from getpass import getpass
+
 from account_form.repository.AccountFormRepository import AccountFormRepository
 
 from utility.keyboard.KeyboardInput import KeyboardInput
@@ -21,6 +23,11 @@ class AccountFormRepositoryImpl(AccountFormRepository):
         return cls.__instance
 
     def createAccountRegisterForm(self):
-        userInputId = KeyboardInput.getKeyboardInput("아이디를 입력하세요:")
-        userInputPassword = KeyboardInput.getKeyboardInput("비밀번호를 입력하세요:")
+        userInputId = KeyboardInput.getKeyboardInput("아이디를 입력하세요: ")
+        userInputPassword = KeyboardInput.getKeyboardInput("비밀번호를 입력하세요: ")
         return userInputId, userInputPassword
+
+    def AccountLoginForm(self):
+        userInputId = KeyboardInput.getKeyboardInput("아이디를 입력하세요 : ")
+        userInputPassword = KeyboardInput.getKeyboardInput("비밀번호를 입력하세요: ")
+        return userInputId,userInputPassword

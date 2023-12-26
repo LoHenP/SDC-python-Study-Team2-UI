@@ -21,9 +21,9 @@ class ConsoleUiServiceImpl(ConsoleUiService):
         return cls.__instance
 
     def processUserInput(self, transmitQueue):
-        print("0. 로그인")
+        print("-----메뉴-----")
         print("1. 회원가입")
-        print("2. 상품 리스트 출력")
+        print("2. 로그인")
         print("3. 종료")
 
         userChoice = KeyboardInput.getKeyboardIntegerInput()

@@ -47,6 +47,15 @@ def registerProtocol():
         accountFormRepository.createAccountRegisterForm
     )
 
+def loginProtocol():
+    customProtocolService = CustomProtocolServiceImpl.getInstance()
+    accountFormRepository = AccountFormRepositoryImpl.getInstance()
+
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.ACCOUNT_LOGIN.value,
+        accountFormRepository.AccountLoginForm()
+    )
+
 
 if __name__ == '__main__':
     initEachDomain()
