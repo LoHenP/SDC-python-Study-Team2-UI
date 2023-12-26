@@ -1,16 +1,76 @@
-# This is a sample Python script.
+import multiprocessing
+import socket
+from time import sleep
+from decouple import config
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from account_form.repository.AccountFormRepositoryImpl import AccountFormRepositoryImpl
+# pip3 install python-decouple
+
+from client_socket.repository.ClientSocketRepositoryImpl import ClientSocketRepositoryImpl
+from client_socket.service.ClientSocketServiceImpl import ClientSocketServiceImpl
+from console_printer.repository.ConsolePrinterRepositoryImpl import ConsolePrinterRepositoryImpl
+from console_ui.repository.ConsoleUiRepositoryImpl import ConsoleUiRepositoryImpl
+from console_ui.service.ConsoleUiServiceImpl import ConsoleUiServiceImpl
+from custom_protocol.entity.CustomProtocol import CustomProtocol
+from custom_protocol.service.CustomProtocolServiceImpl import CustomProtocolServiceImpl
+from task_manage.repository.TaskManageRepositoryImpl import TaskManageRepositoryImpl
+from task_manage.service.TaskManageServiceImpl import TaskManageServiceImpl
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+def initServerSocketDomain():
+    clientSocketRepository = ClientSocketRepositoryImpl()
+    ClientSocketServiceImpl(clientSocketRepository)
 
 
-# Press the green button in the gutter to run the script.
+def initTaskManageDomain():
+    taskManageRepository = TaskManageRepositoryImpl()
+    TaskManageServiceImpl(taskManageRepository)
+
+
+def initConsolePrinterDomain():
+    consoleUiRepository = ConsoleUiRepositoryImpl()
+    ConsoleUiServiceImpl(consoleUiRepository)
+
+
+def initEachDomain():
+    initServerSocketDomain()
+    initTaskManageDomain()
+    initConsolePrinterDomain()
+
+
+def registerProtocol():
+    customProtocolService = CustomProtocolServiceImpl.getInstance()
+    accountFormRepository = AccountFormRepositoryImpl.getInstance()
+
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.ACCOUNT_REGISTER.value,
+        accountFormRepository.createAccountRegisterForm
+    )
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    initEachDomain()
+    registerProtocol()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    clientSocketService = ClientSocketServiceImpl.getInstance()
+
+    clientSocketService.createClientSocket(config('TARGET_HOST'), int(config('PORT')))
+    clientSocketService.connectToTargetHost()
+
+    taskManageService = TaskManageServiceImpl.getInstance()
+
+    lock = multiprocessing.Lock()
+    transmitQueue = multiprocessing.Queue()
+    receiveQueue = multiprocessing.Queue()
+
+    taskManageService.createTransmitTask(lock, transmitQueue)
+    taskManageService.createReceiveTask(lock, receiveQueue)
+    taskManageService.createPrinterTask(transmitQueue, receiveQueue)
+
+    while True:
+        try:
+            sleep(5.0)
+
+        except socket.error:
+            sleep(0.5)
+
