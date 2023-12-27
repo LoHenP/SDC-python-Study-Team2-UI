@@ -21,9 +21,9 @@ class ConsoleUiServiceImpl(ConsoleUiService):
         return cls.__instance
 
     def processUserInput(self, transmitQueue):
-        print("우리 보호소는 리스트만 볼 수 있습니다!")
-        print("0. 강아지 리스트 보기")
-        print("1. 프로그램 종료")
+        print("메뉴")
+        print("1. 회원가입")
+        print("2. 로그인")
 
         userChoice = KeyboardInput.getKeyboardIntegerInput()
         self.__repository.saveCurrentRoutingState(userChoice)

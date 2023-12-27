@@ -5,3 +5,8 @@ class CustomProtocolService(abc.ABC):
     def registerCustomProtocol(self, protocolNumber, pointerOfFunction):
         pass
 
+
+    @abc.abstractmethod
+    def loginCustomProtocol(self, protocolNumber, pointerOfFunction):
+        pass
+
