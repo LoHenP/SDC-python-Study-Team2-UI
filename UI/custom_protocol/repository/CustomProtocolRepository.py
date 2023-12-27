@@ -10,6 +10,8 @@ class CustomProtocolRepository(abc.ABC):
     def login(self, protocolNumber, pointerOfFunction):
         pass
 
+
+
     @abc.abstractmethod
     def execute(self, protocolNumber, *arguments, **mapArguments):
         pass

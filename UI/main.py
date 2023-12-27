@@ -51,6 +51,13 @@ def loginProtocol():
     customProtocolService = CustomProtocolServiceImpl.getInstance()
     accountFormRepository = AccountFormRepositoryImpl.getInstance()
 
+
+    customProtocolService.loginCustomProtocol(
+        CustomProtocol.ACCOUNT_LOGIN.value,
+        accountFormRepository.AccountLoginForm
+    )
+
+
     customProtocolService.registerCustomProtocol(
         CustomProtocol.ACCOUNT_LOGIN.value,
         accountFormRepository.AccountLoginForm()
@@ -60,6 +67,7 @@ def loginProtocol():
 if __name__ == '__main__':
     initEachDomain()
     registerProtocol()
+    loginProtocol()
 
     clientSocketService = ClientSocketServiceImpl.getInstance()
 

@@ -23,6 +23,17 @@ class AccountFormRepositoryImpl(AccountFormRepository):
         return cls.__instance
 
     def createAccountRegisterForm(self):
+
+        userInputId = KeyboardInput.getKeyboardInput("아이디를 입력하세요:")
+        userInputPassword = KeyboardInput.getKeyboardInput("비밀번호를 입력하세요:")
+        return userInputId, userInputPassword
+
+
+    def AccountLoginForm(self):
+        userInputId = KeyboardInput.getKeyboardInput("아이디를 입력하세요:")
+        userInputPassword = KeyboardInput.getKeyboardInput("비밀번호를 입력하세요:")
+        return userInputId, userInputPassword
+
         userInputId = KeyboardInput.getKeyboardInput("아이디를 입력하세요: ")
         userInputPassword = KeyboardInput.getKeyboardInput("비밀번호를 입력하세요: ")
         return userInputId, userInputPassword
@@ -31,3 +42,4 @@ class AccountFormRepositoryImpl(AccountFormRepository):
         userInputId = KeyboardInput.getKeyboardInput("아이디를 입력하세요 : ")
         userInputPassword = KeyboardInput.getKeyboardInput("비밀번호를 입력하세요: ")
         return userInputId,userInputPassword
+

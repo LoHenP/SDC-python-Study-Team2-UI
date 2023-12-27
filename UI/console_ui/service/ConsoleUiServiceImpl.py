@@ -21,6 +21,11 @@ class ConsoleUiServiceImpl(ConsoleUiService):
         return cls.__instance
 
     def processUserInput(self, transmitQueue):
+
+        print("메뉴")
+        print("1. 회원가입")
+        print("2. 로그인")
+
         print("-----메뉴-----")
         print("1. 회원가입")
         print("2. 로그인")
