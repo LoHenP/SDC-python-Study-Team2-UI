@@ -10,3 +10,8 @@ class AccountFormRepository(abc.ABC):
     @abc.abstractmethod
     def AccountLoginForm(self):
         pass
+
+    @abc.abstractmethod
+    def AccountLoginForm(self):
+        pass
+

@@ -1,6 +1,5 @@
 import os
-
-
+import getpass
 class KeyboardInput:
     @staticmethod
     def getKeyboardIntegerInput():
@@ -29,4 +28,18 @@ class KeyboardInput:
 
             except EOFError:
                 pass
+
+    # @classmethod
+    # def getHiddenPassword(cls):
+    #     while True:
+    #         try:
+    #             userInput = getpass.getpass()
+    #             return userInput
+    #
+    #         except ValueError:
+    #             print("숫자값을 입력해야 합니다!")
+    #
+    #         except EOFError:
+    #             pass
+
 
