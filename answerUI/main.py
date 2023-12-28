@@ -38,7 +38,7 @@ def initEachDomain():
     initConsolePrinterDomain()
 
 
-def registerProtocol():
+def accountProtocol():
     customProtocolService = CustomProtocolServiceImpl.getInstance()
     accountFormRepository = AccountFormRepositoryImpl.getInstance()
 
@@ -46,12 +46,7 @@ def registerProtocol():
         CustomProtocol.ACCOUNT_REGISTER.value,
         accountFormRepository.createAccountRegisterForm
     )
-
-def loginProtocol():
-    customProtocolService = CustomProtocolServiceImpl.getInstance()
-    accountFormRepository = AccountFormRepositoryImpl.getInstance()
-
-    customProtocolService.loginCustomProtocol(
+    customProtocolService.registerCustomProtocol(
         CustomProtocol.ACCOUNT_LOGIN.value,
         accountFormRepository.AccountLoginForm
     )
@@ -60,8 +55,7 @@ def loginProtocol():
 
 if __name__ == '__main__':
     initEachDomain()
-    registerProtocol()
-    loginProtocol()
+    accountProtocol()
 
     clientSocketService = ClientSocketServiceImpl.getInstance()
 

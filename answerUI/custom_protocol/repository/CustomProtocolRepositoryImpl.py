@@ -48,11 +48,6 @@ class CustomProtocolRepositoryImpl(CustomProtocolRepository):
 
         self.__importCustomProtocol(protocolNumber, pointerOfFunction)
 
-    def login(self, protocolNumber, pointerOfFunction):
-        print(f"{protocolNumber} 번호에 대응할 Handler: {pointerOfFunction}")
-
-        self.__importCustomProtocol(protocolNumber, pointerOfFunction)
-
     def __protocolTableExecution(self, protocolNumber, *arguments, **mapArguments):
         if self.__customProtocolTable[protocolNumber] is not self.notImplemented:
             pointerOfFunction = self.__customProtocolTable[protocolNumber]
