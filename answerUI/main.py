@@ -13,6 +13,7 @@ from console_ui.repository.ConsoleUiRepositoryImpl import ConsoleUiRepositoryImp
 from console_ui.service.ConsoleUiServiceImpl import ConsoleUiServiceImpl
 from custom_protocol.entity.CustomProtocol import CustomProtocol
 from custom_protocol.service.CustomProtocolServiceImpl import CustomProtocolServiceImpl
+from product_form.repository.ProductFormRepositoryImpl import ProductFormRepositoryImpl
 from task_manage.repository.TaskManageRepositoryImpl import TaskManageRepositoryImpl
 from task_manage.service.TaskManageServiceImpl import TaskManageServiceImpl
 
@@ -51,11 +52,21 @@ def accountProtocol():
         accountFormRepository.AccountLoginForm
     )
 
+def productProtocol():
+    customProtocolService = CustomProtocolServiceImpl.getInstance()
+    productFormRepository = ProductFormRepositoryImpl.getInstance()
+
+    customProtocolService.productListCustomProtocol(
+        CustomProtocol.PRODUCT_LIST.value,
+        productFormRepository.createProductListForm
+    )
+
 
 
 if __name__ == '__main__':
     initEachDomain()
     accountProtocol()
+    productProtocol()
 
     clientSocketService = ClientSocketServiceImpl.getInstance()
 

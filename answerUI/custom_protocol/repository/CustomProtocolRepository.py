@@ -11,3 +11,6 @@ class CustomProtocolRepository(abc.ABC):
     def execute(self, protocolNumber, *arguments, **mapArguments):
         pass
 
+    @abc.abstractmethod
+    def productData(self, protocolNumber):
+        pass

@@ -27,6 +27,7 @@ class ConsoleUiServiceImpl(ConsoleUiService):
         print("메뉴")
         print("1. 로그인")
         print("2. 회원가입")
+        print("5. 상품 목록")
 
         # if not receiveQueue.empty():
         #     sessionid = receiveQueue.get()
