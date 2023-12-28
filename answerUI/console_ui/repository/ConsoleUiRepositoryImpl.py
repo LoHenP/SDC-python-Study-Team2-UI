@@ -32,3 +32,4 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         pass
 
 
+

@@ -1,9 +1,12 @@
 import ast
 import json
+import multiprocessing
 import socket
 import unittest
+from time import sleep
 from unittest.mock import patch, Mock
 
+from console_ui.entity.Session import Session
 from utility.keyboard.KeyboardInput import KeyboardInput
 
 
@@ -48,6 +51,45 @@ class TestUlgyCode(unittest.TestCase):
 
         print(f'Extracted __isSuccess value: {isSuccessValue}')
 
+    def testprocessUserInput(self):
+        receiveQueue = multiprocessing.Queue()
+        #receiveQueue.put({'username': 'test', 'password': '<PASSWORD>', 'list': ['1', '2', '3', '4', '5']})
+
+        receiveQueue.put({'username': 'test', 'password': '<sad>', 'list': ['1', '2',  '4', '5']})
+        print('put')
+        sleep(0.5)
+
+        if receiveQueue.empty():
+            print('1empty')
+        sleep(0.5)
+
+        if not receiveQueue.empty():
+            print('1not empty')
+        sleep(0.5)
+
+        print(receiveQueue.get())
+        print('get')
+        sleep(0.5)
+
+        if receiveQueue.empty():
+            print('2empty')
+        sleep(0.5)
+
+        if not receiveQueue.empty():
+            print('2not empty')
+        sleep(0.5)
+
+        receiveQueue.put({'username': 'test', 'password': '<sad>', 'list': ['1', '2', '4', '5']})
+        print('put')
+        sleep(0.5)
+
+        if receiveQueue.empty():
+            print('3empty')
+        sleep(0.5)
+
+        if not receiveQueue.empty():
+            print('3not empty')
+        sleep(0.5)
 
 if __name__ == '__main__':
     unittest.main()
