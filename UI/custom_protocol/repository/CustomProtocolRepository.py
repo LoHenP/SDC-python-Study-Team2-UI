@@ -11,6 +11,7 @@ class CustomProtocolRepository(abc.ABC):
         pass
 
 
+
     @abc.abstractmethod
     def execute(self, protocolNumber, *arguments, **mapArguments):
         pass
