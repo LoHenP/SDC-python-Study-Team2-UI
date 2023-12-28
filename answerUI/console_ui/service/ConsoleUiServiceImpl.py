@@ -23,7 +23,7 @@ class ConsoleUiServiceImpl(ConsoleUiService):
             cls.__instance = cls(repository)
         return cls.__instance
 
-    def processUserInput(self, transmitQueue, receiveQueue):
+    def processUserInput(self, transmitQueue):
         print("메뉴")
         print("1. 로그인")
         print("2. 회원가입")
