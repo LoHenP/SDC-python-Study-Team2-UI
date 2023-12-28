@@ -39,15 +39,24 @@ class TransmitterRepositoryImpl(TransmitterRepository):
                     request = customProtocolRepository.execute(sendProtocol)
                     print(f"Request from repository: {request}")
 
-                    requestGenerator = requestGeneratorService.findRequestGenerator(sendProtocol)
-                    print(f"Request Generator: {requestGenerator}")
-                    sendingRequest = requestGenerator(request)
-                    print(f"finish to generate request: {sendingRequest}")
+                    if sendProtocol == 5:
+                        combinedRequestData = {
+                            'protocol': sendProtocol,
+                            'data': {},
+                        }
 
-                    combinedRequestData = {
-                        'protocol': sendProtocol,
-                        'data': sendingRequest,
-                    }
+                    else :
+
+                        requestGenerator = requestGeneratorService.findRequestGenerator(sendProtocol)
+                        print(f"Request Generator: {requestGenerator}")
+                        sendingRequest = requestGenerator(request)
+                        print(f"finish to generate request: {sendingRequest}")
+
+                        combinedRequestData = {
+                            'protocol': sendProtocol,
+                            'data': sendingRequest,
+                        }
+
 
                     combinedRequestDataString = json.dumps(combinedRequestData)
 

@@ -24,6 +24,10 @@ class ConsoleUiServiceImpl(ConsoleUiService):
         return cls.__instance
 
     def processUserInput(self, transmitQueue):
+        print("메뉴")
+        print("1. 로그인")
+        print("2. 회원가입")
+        print("5. 상품 목록")
         if self.__session is None:
             print("메뉴")
             print("1. 로그인")
