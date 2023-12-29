@@ -1,3 +1,4 @@
+import json
 import socket
 import sys
 from datetime import datetime
@@ -36,7 +37,7 @@ class ConsolePrinterRepositoryImpl(ConsolePrinterRepository):
                 response = receiveQueue.get()
                 print(f"Received response: {response}")
                 print(f"type: {type(response)}")
-                evalresponse = eval(response)
+                evalresponse = json.loads(response)
                 print(f"evalresponse: {evalresponse}")
                 print(f"type: {type(evalresponse)}")
 
