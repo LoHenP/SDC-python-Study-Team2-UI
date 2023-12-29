@@ -45,7 +45,7 @@ class TransmitterRepositoryImpl(TransmitterRepository):
                             'data': {},
                         }
 
-                    else :
+                    else:
 
                         requestGenerator = requestGeneratorService.findRequestGenerator(sendProtocol)
                         print(f"Request Generator: {requestGenerator}")

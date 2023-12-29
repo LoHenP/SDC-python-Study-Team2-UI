@@ -1,13 +1,18 @@
 from console_ui.entity.ConsoleUiState import ConsoleUiState
 from console_ui.repository.ConsoleUiRepository import ConsoleUiRepository
+from custom_protocol.entity.CustomProtocol import CustomProtocol
 
 
 class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     __instance = None
+    __uiMenuTable = {}
 
     def __new__(cls):
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
+
+            cls.__instance.__uiMenuTable[CustomProtocol.PRODUCT_LIST.value] = cls.__instance.__printProductList
+
         return cls.__instance
 
     def __init__(self):
@@ -29,6 +34,15 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
     # 현재 시점에 약간 애매함
     def saveRequestFormToTransmitQueue(self):
+        pass
+
+    def printMenu(self):
+        currentRoutingState = self.__consoleUiState.getCurrentRoutingState()
+        menu = self.__uiMenuTable[currentRoutingState]
+        menu()
+
+
+    def __printProductList(self):
         pass
 
 

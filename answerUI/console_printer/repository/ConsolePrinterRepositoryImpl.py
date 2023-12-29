@@ -25,10 +25,10 @@ class ConsolePrinterRepositoryImpl(ConsolePrinterRepository):
         return cls.__instance
 
 
-
     def printConsoleUi(self, transmitQueue, receiveQueue):
 
         consoleUiService = ConsoleUiServiceImpl.getInstance()
+        consoleUiService.printMenu()
         consoleUiService.processUserInput(transmitQueue)
 
         while True:

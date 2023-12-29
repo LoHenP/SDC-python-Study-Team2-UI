@@ -4,6 +4,8 @@ from time import sleep
 from decouple import config
 
 from account_form.repository.AccountFormRepositoryImpl import AccountFormRepositoryImpl
+from product_form.repository.ProductFormRepositoryImpl import ProductFormRepositoryImpl
+
 # pip3 install python-decouple
 
 from client_socket.repository.ClientSocketRepositoryImpl import ClientSocketRepositoryImpl
@@ -13,7 +15,6 @@ from console_ui.repository.ConsoleUiRepositoryImpl import ConsoleUiRepositoryImp
 from console_ui.service.ConsoleUiServiceImpl import ConsoleUiServiceImpl
 from custom_protocol.entity.CustomProtocol import CustomProtocol
 from custom_protocol.service.CustomProtocolServiceImpl import CustomProtocolServiceImpl
-from product_form.repository.ProductFormRepositoryImpl import ProductFormRepositoryImpl
 from task_manage.repository.TaskManageRepositoryImpl import TaskManageRepositoryImpl
 from task_manage.service.TaskManageServiceImpl import TaskManageServiceImpl
 
@@ -33,40 +34,43 @@ def initConsolePrinterDomain():
     ConsoleUiServiceImpl(consoleUiRepository)
 
 
+def registerProtocol():
+    customProtocolService = CustomProtocolServiceImpl.getInstance()
+    accountFormRepository = AccountFormRepositoryImpl.getInstance()
+    productFormRepository = ProductFormRepositoryImpl.getInstance()
+
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.ACCOUNT_LOGIN.value,
+        accountFormRepository.AccountLoginForm,
+    )
+
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.ACCOUNT_REGISTER.value,
+        accountFormRepository.createAccountRegisterForm,
+    )
+
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.PRODUCT_LIST.value,
+        productFormRepository.createProductListForm,
+    )
+
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.PRODUCT_CHECK.value,
+        productFormRepository.createProductCheckForm,
+    )
+
+
 def initEachDomain():
     initServerSocketDomain()
     initTaskManageDomain()
     initConsolePrinterDomain()
+    registerProtocol()
 
-
-def accountProtocol():
-    customProtocolService = CustomProtocolServiceImpl.getInstance()
-    accountFormRepository = AccountFormRepositoryImpl.getInstance()
-
-    customProtocolService.registerCustomProtocol(
-        CustomProtocol.ACCOUNT_REGISTER.value,
-        accountFormRepository.createAccountRegisterForm
-    )
-    customProtocolService.registerCustomProtocol(
-        CustomProtocol.ACCOUNT_LOGIN.value,
-        accountFormRepository.AccountLoginForm
-    )
-
-def productProtocol():
-    customProtocolService = CustomProtocolServiceImpl.getInstance()
-    productFormRepository = ProductFormRepositoryImpl.getInstance()
-
-    customProtocolService.productListCustomProtocol(
-        CustomProtocol.PRODUCT_LIST.value,
-        productFormRepository.createProductListForm
-    )
 
 
 
 if __name__ == '__main__':
     initEachDomain()
-    accountProtocol()
-    productProtocol()
 
     clientSocketService = ClientSocketServiceImpl.getInstance()
 

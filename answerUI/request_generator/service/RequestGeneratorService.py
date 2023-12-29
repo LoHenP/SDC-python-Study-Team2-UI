@@ -11,3 +11,10 @@ class RequestGeneratorService(abc.ABC):
     def generateAccountRegisterRequest(self, arguments):
         pass
 
+    @abc.abstractmethod
+    def generateAccountLoginRequest(self, arguments):
+        pass
+
+    @abc.abstractmethod
+    def generateProductCheckRequest(self, arguments):
+        pass

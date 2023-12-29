@@ -24,6 +24,3 @@ class CustomProtocolServiceImpl(CustomProtocolService):
 
     def registerCustomProtocol(self, protocolNumber, pointerOfFunction):
         self.__customProtocolRepository.register(protocolNumber, pointerOfFunction)
-
-    def productListCustomProtocol(self, protocolNumber, pointerOfFunction):
-        self.__customProtocolRepository.productData(protocolNumber, pointerOfFunction)
