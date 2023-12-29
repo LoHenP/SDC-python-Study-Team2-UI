@@ -35,7 +35,7 @@ class ConsolePrinterRepositoryImpl(ConsolePrinterRepository):
             if not receiveQueue.empty():
                 response = receiveQueue.get()
                 print(f"Received response: {response}")
-
+                consoleUiService.printMenu()
                 consoleUiService.processUserInput(transmitQueue)
             else:
                 sleep(0.5)

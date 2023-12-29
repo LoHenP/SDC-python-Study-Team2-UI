@@ -24,18 +24,10 @@ class ConsoleUiServiceImpl(ConsoleUiService):
         return cls.__instance
 
     def printMenu(self):
-        
+
         self.__repository.printMenu()
 
     def processUserInput(self, transmitQueue):
-        print("메뉴")
-        print("1. 로그인")
-        print("2. 회원가입")
-        print("5. 상품 목록")
-        print("6. 상품 조회")
-        # if not receiveQueue.empty():
-        #     sessionid = receiveQueue.get()
-        #     self.__session = Session(sessionid)
 
         userChoice = KeyboardInput.getKeyboardIntegerInput()
         self.__repository.saveCurrentRoutingState(userChoice)
