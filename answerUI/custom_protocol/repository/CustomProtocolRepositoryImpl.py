@@ -48,11 +48,6 @@ class CustomProtocolRepositoryImpl(CustomProtocolRepository):
 
         self.__importCustomProtocol(protocolNumber, pointerOfFunction)
 
-    def productData(self, protocolNumber, pointerOfFunction):
-        print(f"{protocolNumber}")
-
-        self.__importCustomProtocol(protocolNumber, pointerOfFunction)
-
     def __protocolTableExecution(self, protocolNumber, *arguments, **mapArguments):
         if self.__customProtocolTable[protocolNumber] is not self.notImplemented:
             pointerOfFunction = self.__customProtocolTable[protocolNumber]

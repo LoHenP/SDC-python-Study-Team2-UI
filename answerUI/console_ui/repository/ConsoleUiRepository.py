@@ -16,3 +16,6 @@ class ConsoleUiRepository(abc.ABC):
         pass
 
 
+    @abc.abstractmethod
+    def printMenu(self):
+        pass

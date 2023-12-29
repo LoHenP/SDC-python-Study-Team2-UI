@@ -23,3 +23,7 @@ class ProductFormRepositoryImpl(ProductFormRepository):
 
     def createProductListForm(self):
         return CustomProtocol.PRODUCT_LIST.value
+
+    def createProductCheckForm(self):
+        productCheckNum = KeyboardInput.getKeyboardInput("상품 번호를 입력하세요.")
+        return productCheckNum, productCheckNum
