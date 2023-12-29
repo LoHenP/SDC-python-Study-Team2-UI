@@ -1,3 +1,4 @@
+import atexit
 import json
 import socket
 from datetime import datetime
@@ -10,6 +11,9 @@ from transmitter.repository.TransmitterRepository import TransmitterRepository
 
 class TransmitterRepositoryImpl(TransmitterRepository):
     __instance = None
+    __clientSocketObject = None
+    __lock = None
+    __transmitQueue = None
 
     def __new__(cls):
         if cls.__instance is None:
@@ -25,10 +29,17 @@ class TransmitterRepositoryImpl(TransmitterRepository):
             cls.__instance = cls()
         return cls.__instance
 
+
     def transmitCommand(self, clientSocketObject, lock, transmitQueue):
+        self.__clientSocketObject = clientSocketObject
+        self.__lock = lock
+        self.__transmitQueue = transmitQueue
+
         clientSocket = clientSocketObject.getSocket()
         customProtocolRepository = CustomProtocolRepositoryImpl.getInstance()
         requestGeneratorService = RequestGeneratorServiceImpl.getInstance()
+
+
 
         while True:
             with lock:

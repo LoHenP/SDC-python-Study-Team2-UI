@@ -19,6 +19,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
 
 
+
         return cls.__instance
 
     def __init__(self):
@@ -43,10 +44,16 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         pass
 
     def printMenu(self):
+        print("consoleUiRepositoryImpl 실행")
         currentRoutingState = self.__consoleUiState.getCurrentRoutingState()
-
+        print("라우팅 받아옴")
+        print(f"currentRoutingState: {currentRoutingState}")
+        print(f"currentRoutingState: {type(currentRoutingState)}")
+        print(f"currentRoutingState: {currentRoutingState.value}")
         menu = self.__uiMenuTable[currentRoutingState.value]
+        print("메뉴 받아옴")
         menu()
+        print("메뉴 실행")
 
 
     def __printProductList(self):

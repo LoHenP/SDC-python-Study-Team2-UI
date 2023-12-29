@@ -30,7 +30,8 @@ class ReceiverRepositoryImpl(ReceiverRepository):
         while True:
             try:
                 # 소켓으로 전송된 데이터 수신
-                data = clientSocket.recv(1024)
+                print(f"clientSocket: {clientSocket}")
+                data = clientSocket.recv(2048)
 
                 if not data:
                     clientSocket.closeSocket()

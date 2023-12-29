@@ -9,3 +9,6 @@ class ConsoleUiService(abc.ABC):
     @abc.abstractmethod
     def printMenu(self):
         pass
+    @abc.abstractmethod
+    def onExit(self):
+        pass

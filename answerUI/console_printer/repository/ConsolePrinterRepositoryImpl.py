@@ -1,3 +1,4 @@
+import json
 import socket
 import sys
 from datetime import datetime
@@ -5,6 +6,7 @@ from time import sleep
 
 from console_printer.repository.ConsolePrinterRepository import ConsolePrinterRepository
 from console_ui.service.ConsoleUiServiceImpl import ConsoleUiServiceImpl
+from sample import Sample
 
 
 class ConsolePrinterRepositoryImpl(ConsolePrinterRepository):
@@ -33,15 +35,22 @@ class ConsolePrinterRepositoryImpl(ConsolePrinterRepository):
 
         while True:
             if not receiveQueue.empty():
-                response = receiveQueue.get()
-                print(f"Received response: {response}")
-                print(f"type: {type(response)}")
-                evalresponse = eval(response)
-                print(f"evalresponse: {evalresponse}")
-                print(f"type: {type(evalresponse)}")
+                try:
+                    response = receiveQueue.get()
+                    print(f"Received response: {response}")
+                    print(f"type: {type(response)}")
+                    evalresponse = json.loads(response)
 
-                consoleUiService.printMenu()
-                consoleUiService.processUserInput(transmitQueue)
+                    print(f"evalresponse: {evalresponse}")
+                    print(f"type: {type(evalresponse)}")
+
+                    consoleUiService.printMenu()
+                    consoleUiService.processUserInput(transmitQueue)
+                except json.JSONDecodeError as e:
+                    print(f"JSON 디코딩 오류: {e}")
+                except Exception as e:
+                    print(f"오류 발생: {e}")
+
             else:
                 sleep(0.5)
 
