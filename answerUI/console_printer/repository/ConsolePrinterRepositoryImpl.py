@@ -35,6 +35,11 @@ class ConsolePrinterRepositoryImpl(ConsolePrinterRepository):
             if not receiveQueue.empty():
                 response = receiveQueue.get()
                 print(f"Received response: {response}")
+                print(f"type: {type(response)}")
+                evalresponse = eval(response)
+                print(f"evalresponse: {evalresponse}")
+                print(f"type: {type(evalresponse)}")
+
                 consoleUiService.printMenu()
                 consoleUiService.processUserInput(transmitQueue)
             else:
