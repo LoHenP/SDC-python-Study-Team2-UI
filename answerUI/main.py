@@ -40,13 +40,8 @@ def registerProtocol():
     productFormRepository = ProductFormRepositoryImpl.getInstance()
 
     customProtocolService.registerCustomProtocol(
-        CustomProtocol.ACCOUNT_LOGIN.value,
-        accountFormRepository.AccountLoginForm,
-    )
-
-    customProtocolService.registerCustomProtocol(
-        CustomProtocol.ACCOUNT_REGISTER.value,
-        accountFormRepository.createAccountRegisterForm,
+        CustomProtocol.PRODUCT_CHECK.value,
+        productFormRepository.createProductCheckForm,
     )
 
     customProtocolService.registerCustomProtocol(
@@ -55,9 +50,16 @@ def registerProtocol():
     )
 
     customProtocolService.registerCustomProtocol(
-        CustomProtocol.PRODUCT_CHECK.value,
-        productFormRepository.createProductCheckForm,
+        CustomProtocol.ACCOUNT_REGISTER.value,
+        accountFormRepository.createAccountRegisterForm,
     )
+
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.ACCOUNT_LOGIN.value,
+        accountFormRepository.AccountLoginForm,
+    )
+
+
 
 
 def initEachDomain():
