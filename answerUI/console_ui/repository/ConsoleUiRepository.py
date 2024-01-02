@@ -15,6 +15,10 @@ class ConsoleUiRepository(abc.ABC):
     def saveRequestFormToTransmitQueue(self):
         pass
 
+    @abc.abstractmethod
+    def userInputConverter(self, userChoice):
+        pass
+
 
     @abc.abstractmethod
     def printMenu(self):

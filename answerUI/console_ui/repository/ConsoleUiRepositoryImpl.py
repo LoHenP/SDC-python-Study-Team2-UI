@@ -42,6 +42,27 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     def saveRequestFormToTransmitQueue(self):
         pass
 
+
+    def userInputConverter(self, userChoice):
+        CurrentRoutingState = self.acquireCurrentRoutingState()
+        print(f"Current Routing State: {CurrentRoutingState}")
+        if CurrentRoutingState == ConsoleUiRoutingState.NOTHING:
+            return userChoice
+        if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_LIST:
+            if userChoice == 1:
+                return CustomProtocol.PRODUCT_CHECK.value
+            if userChoice == 2:
+                return CustomProtocol.PRODUCT_ADD.value
+            if userChoice == 3:
+                return CustomProtocol.PRODUCT_EDIT.value
+            if userChoice == 4:
+                return CustomProtocol.PRODUCT_DELETE.value
+            if userChoice == 5:
+                return 0
+        return userChoice
+
+
+
     def printMenu(self):
         currentRoutingState = self.__consoleUiState.getCurrentRoutingState()
 
@@ -77,3 +98,4 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("5. 상품 목록")
         print("6. 상품 조회")
         print("7. 상품 추가")
+
