@@ -7,6 +7,8 @@ from custom_protocol.entity.CustomProtocol import CustomProtocol
 class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     __instance = None
     __uiMenuTable = {}
+    __nothingNum = [0, 9]
+    __productListNum = [0, 5]
 
     def __new__(cls):
         if cls.__instance is None:
@@ -41,6 +43,35 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     # 현재 시점에 약간 애매함
     def saveRequestFormToTransmitQueue(self):
         pass
+
+    def restrictUserChoice(self):
+        CurrentRoutingState = self.acquireCurrentRoutingState()
+
+        if CurrentRoutingState == ConsoleUiRoutingState.NOTHING:
+            return self.__nothingNum
+        if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_LIST:
+            return self.__productListNum
+
+
+    def userInputConverter(self, userChoice):
+        CurrentRoutingState = self.acquireCurrentRoutingState()
+        print(f"Current Routing State: {CurrentRoutingState}")
+        if CurrentRoutingState == ConsoleUiRoutingState.NOTHING:
+            return userChoice
+        if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_LIST:
+            if userChoice == 1:
+                return CustomProtocol.PRODUCT_CHECK.value
+            if userChoice == 2:
+                return CustomProtocol.PRODUCT_ADD.value
+            if userChoice == 3:
+                return CustomProtocol.PRODUCT_EDIT.value
+            if userChoice == 4:
+                return CustomProtocol.PRODUCT_DELETE.value
+            if userChoice == 5:
+                return 0
+        return userChoice
+
+
 
     def printMenu(self):
         currentRoutingState = self.__consoleUiState.getCurrentRoutingState()

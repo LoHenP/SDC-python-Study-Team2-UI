@@ -41,7 +41,7 @@ class ConsolePrinterRepositoryImpl(ConsolePrinterRepository):
                 print(f"evalresponse: {evalresponse}")
                 print(f"type: {type(evalresponse)}")
 
-                consoleUiService.printMenuRep(evalresponse)
+                consoleUiService.printMenuResponse(evalresponse)
                 consoleUiService.processUserInput(transmitQueue)
             else:
                 sleep(0.5)

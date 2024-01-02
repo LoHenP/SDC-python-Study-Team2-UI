@@ -12,7 +12,5 @@ class ConsoleUiRoutingState(Enum):
     PRODUCT_ADD = 7
     PRODUCT_EDIT = 8
     PRODUCT_DELETE = 9
-    PRODUCT_BUY = 10
-    PURCHASE_LIST = 11
-
-
+    ORDER_PURCHASE = 10
+    ORDER_LIST = 11
