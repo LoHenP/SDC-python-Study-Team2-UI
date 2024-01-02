@@ -27,3 +27,8 @@ class ProductFormRepositoryImpl(ProductFormRepository):
     def createProductCheckForm(self):
         productCheckNum = KeyboardInput.getKeyboardInput("상품 번호를 입력하세요.")
         return productCheckNum, productCheckNum
+
+    def createProductAddForm(self):
+        productName = KeyboardInput.getKeyboardInput("상품 이름을 입력하세요.")
+        productPrice = KeyboardInput.getKeyboardInput("상품 가격을 입력하세요.")
+        return productName, productPrice

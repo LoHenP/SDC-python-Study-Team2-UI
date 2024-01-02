@@ -60,3 +60,4 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("2. 회원가입")
         print("5. 상품 목록")
         print("6. 상품 조회")
+        print("7. 상품 추가")

@@ -8,7 +8,7 @@ class ConsoleUiState():
         # self.__currentReadNumber = None
 
     def setCurrentRoutingState(self, currentState):
-        self.__currentRoutingState = currentState
+        self.__currentRoutingState = ConsoleUiRoutingState(currentState)
 
     def getCurrentRoutingState(self):
         return self.__currentRoutingState
