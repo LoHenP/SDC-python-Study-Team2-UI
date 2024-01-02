@@ -23,9 +23,14 @@ class ConsoleUiServiceImpl(ConsoleUiService):
             cls.__instance = cls(repository)
         return cls.__instance
 
+
     def printMenu(self):
 
         self.__repository.printMenu()
+
+    def printMenuResponse(self, response):
+
+        self.__repository.printMenuResponse(response)
 
     def processUserInput(self, transmitQueue):
 
