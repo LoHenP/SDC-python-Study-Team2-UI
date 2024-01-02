@@ -2,6 +2,8 @@ from console_ui.entity.ConsoleUiRoutingState import ConsoleUiRoutingState
 from console_ui.entity.ConsoleUiState import ConsoleUiState
 from console_ui.repository.ConsoleUiRepository import ConsoleUiRepository
 from custom_protocol.entity.CustomProtocol import CustomProtocol
+from utility.keyboard.KeyboardInput import KeyboardInput
+
 
 
 class ConsoleUiRepositoryImpl(ConsoleUiRepository):
@@ -44,13 +46,21 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     def saveRequestFormToTransmitQueue(self):
         pass
 
-    def restrictUserChoice(self):
+    def restrictUserInput(self):
         CurrentRoutingState = self.acquireCurrentRoutingState()
-
+        restrictChoice = []
         if CurrentRoutingState == ConsoleUiRoutingState.NOTHING:
-            return self.__nothingNum
+            restrictChoice = self.__nothingNum
         if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_LIST:
-            return self.__productListNum
+            restrictChoice = self.__productListNum
+
+        while(True):
+            userChoice = KeyboardInput.getKeyboardIntegerInput()
+            if restrictChoice[0] <= userChoice <= restrictChoice[1]:
+                return userChoice
+            print("다시 입력 해주세요.")
+
+
 
 
     def userInputConverter(self, userChoice):
@@ -68,7 +78,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             if userChoice == 4:
                 return CustomProtocol.PRODUCT_DELETE.value
             if userChoice == 5:
-                return 0
+                return 12
         return userChoice
 
 
