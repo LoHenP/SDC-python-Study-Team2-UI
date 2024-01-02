@@ -6,5 +6,5 @@ class ProductFormRepository(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def createProductCheckForm(self):
+    def createProductInfoForm(self):
         pass

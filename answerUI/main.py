@@ -45,8 +45,8 @@ def registerProtocol():
     )
 
     customProtocolService.registerCustomProtocol(
-        CustomProtocol.PRODUCT_CHECK.value,
-        productFormRepository.createProductCheckForm,
+        CustomProtocol.PRODUCT_INFO.value,
+        productFormRepository.createProductInfoForm,
     )
 
     customProtocolService.registerCustomProtocol(
