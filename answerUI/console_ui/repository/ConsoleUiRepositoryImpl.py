@@ -49,8 +49,24 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         menu()
 
 
-    def __printProductList(self):
+    def printMenuResponse(self, response):
+        currentRoutingState = self.__consoleUiState.getCurrentRoutingState()
+
+        menu = self.__uiMenuTable[currentRoutingState.value]
+        menu(response)
+
+
+    def __printProductList(self, response):
         print("상품목록")
+
+        for i in response:
+            print(f"id: {i['id']}, name: {i['name']}, price: {i['price']}")
+
+        print("1. 상품 조회")
+        print("2. 상품 추가")
+        print("3. 상품 수정")
+        print("4. 상품 삭제")
+        print("5. 메뉴")
 
 
     def __printDefaultMenu(self):
