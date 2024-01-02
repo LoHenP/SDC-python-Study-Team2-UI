@@ -31,18 +31,11 @@ class ConsoleUiServiceImpl(ConsoleUiService):
         self.__repository.printMenuResponse(response)
 
     def processUserInput(self, transmitQueue):
-        restrictChoice = self.__repository.restrictUserChoice()
-        while(True):
-            userChoice = KeyboardInput.getKeyboardIntegerInput()
-            if restrictChoice[0] <= userChoice <= restrictChoice[1]:
-                break
-            print("다시 입력 해주세요.")
-
+        userChoice = self.__repository.restrictUserInput()
         userChoice = self.__repository.userInputConverter(userChoice)
         self.__repository.saveCurrentRoutingState(userChoice)
 
         # 필요하다면 여기 중간에 몇 가지 작업들이 더 처리 될 수 있습니다.
         transmitQueue.put(userChoice)
-
 
 

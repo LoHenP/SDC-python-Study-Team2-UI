@@ -2,21 +2,29 @@ from console_ui.entity.ConsoleUiRoutingState import ConsoleUiRoutingState
 from console_ui.entity.ConsoleUiState import ConsoleUiState
 from console_ui.repository.ConsoleUiRepository import ConsoleUiRepository
 from custom_protocol.entity.CustomProtocol import CustomProtocol
+from utility.keyboard.KeyboardInput import KeyboardInput
+
 
 
 class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     __instance = None
     __uiMenuTable = {}
     __nothingNum = [0, 9]
-    __productListNum = [0, 5]
+    __productListNum = [0, 6]
 
     def __new__(cls):
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.NOTHING.value] = cls.__instance.__printDefaultMenu
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ACCOUNT_REGISTER.value] = cls.__instance.__printDefaultMenu
-            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_LIST.value] = cls.__instance.__printProductList
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ACCOUNT_LOGIN.value] = cls.__instance.__printDefaultMenu
+            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_LIST.value] = cls.__instance.__printProductList
+            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_INFO.value] = cls.__instance.__printProductInfo
+            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_ADD.value] = cls.__instance.__printProductAdd
+            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_DELETE.value] = cls.__instance.__printProductDelete
+
+
+
 
 
 
@@ -44,13 +52,21 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     def saveRequestFormToTransmitQueue(self):
         pass
 
-    def restrictUserChoice(self):
+    def restrictUserInput(self):
         CurrentRoutingState = self.acquireCurrentRoutingState()
-
+        restrictChoice = []
         if CurrentRoutingState == ConsoleUiRoutingState.NOTHING:
-            return self.__nothingNum
+            restrictChoice = self.__nothingNum
         if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_LIST:
-            return self.__productListNum
+            restrictChoice = self.__productListNum
+
+        while(True):
+            userChoice = KeyboardInput.getKeyboardIntegerInput("원하는 선택지를 입력하세요.")
+            if restrictChoice[0] <= userChoice <= restrictChoice[1]:
+                return userChoice
+            print("다시 입력 해주세요.")
+
+
 
 
     def userInputConverter(self, userChoice):
@@ -68,7 +84,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             if userChoice == 4:
                 return CustomProtocol.PRODUCT_DELETE.value
             if userChoice == 5:
-                return 0
+                return 12
         return userChoice
 
 
@@ -86,21 +102,55 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         menu = self.__uiMenuTable[currentRoutingState.value]
         menu(response)
 
+    def __printProductMenu(self):
+        # 세션 확인해서 로그인중이면 로그아웃만 뜨게해야함
+        print("1. 상품 조회")
+        print("2. 상품 추가")
+        print("3. 상품 수정")
+        print("4. 상품 삭제")
+        print("5. 로그인")
+        print("6. 회원가입")
+        print("0. 종료")
 
     def __printProductList(self, response):
         print("상품목록")
 
         for i in response:
             print(f"id: {i['id']}, name: {i['name']}, price: {i['price']}")
+        self.__printProductMenu()
 
-        print("1. 상품 조회")
-        print("2. 상품 추가")
-        print("3. 상품 수정")
-        print("4. 상품 삭제")
-        print("5. 메뉴")
+    def __printProductInfo(self, response):
+        print("상품 조회")
+        print("------------------------")
+        print(f"")
+        print("------------------------")
+
+        #세션 로그인 확인 필요
+        print("1. 상품 목록")
+        print("2. 상품 수정")
+        print("3. 상품 삭제")
+        print("4. 로그인")
+        print("5. 회원가입")
+        print("0. 종료")
+
+    def __printProductAdd(self, response):
+
+        #response 에서 실패 성공 받아서 둘중하나 출력
+        print("상품 추가 완료")
+        print("상품 추가 실패")
+
+        self.__printProductMenu()
+
+    def __printProductDelete(self, response):
+        #response 에서 실패 성공 받아서 둘중하나 출력
+        print("상품 삭제 성공")
+        print("상품 삭제 실패")
+
+        self.__printProductMenu()
 
 
     def __printDefaultMenu(self):
+        #세션 로그인 확인 필요
 
         print("메뉴")
         print("1. 로그인")

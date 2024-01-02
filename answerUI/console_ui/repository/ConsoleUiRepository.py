@@ -16,7 +16,7 @@ class ConsoleUiRepository(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def restrictUserChoice(self):
+    def restrictUserInput(self):
         pass
 
 

@@ -24,11 +24,12 @@ class ProductFormRepositoryImpl(ProductFormRepository):
     def createProductListForm(self):
         return CustomProtocol.PRODUCT_LIST.value
 
-    def createProductCheckForm(self):
-        productCheckNum = KeyboardInput.getKeyboardInput("상품 번호를 입력하세요.")
-        return productCheckNum, productCheckNum
+    def createProductInfoForm(self):
+        productInfoNum = KeyboardInput.getKeyboardIntegerInput("상품 번호를 입력하세요.")
+        return productInfoNum
 
     def createProductAddForm(self):
         productName = KeyboardInput.getKeyboardInput("상품 이름을 입력하세요.")
-        productPrice = KeyboardInput.getKeyboardInput("상품 가격을 입력하세요.")
-        return productName, productPrice
+        productPrice = KeyboardInput.getKeyboardIntegerInput("상품 가격을 입력하세요.")
+        productInfo = KeyboardInput.getKeyboardInput("상품 정보를 입력하세요.")
+        return productName, productPrice, productInfo
