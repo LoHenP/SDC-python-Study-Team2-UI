@@ -16,5 +16,5 @@ class RequestGeneratorService(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def generateProductCheckRequest(self, arguments):
+    def generateProductInfoRequest(self, arguments):
         pass
