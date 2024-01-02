@@ -2,6 +2,7 @@ from enum import Enum
 
 
 class CustomProtocol(Enum):
+    PROGRAM_CLOSE = 0
     ACCOUNT_LOGIN = 1
     ACCOUNT_REGISTER = 2
     ACCOUNT_LOGOUT = 3

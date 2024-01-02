@@ -40,6 +40,11 @@ def registerProtocol():
     productFormRepository = ProductFormRepositoryImpl.getInstance()
 
     customProtocolService.registerCustomProtocol(
+        CustomProtocol.PROGRAM_CLOSE.value,
+        accountFormRepository.createProgramCloseForm,
+    )
+
+    customProtocolService.registerCustomProtocol(
         CustomProtocol.PRODUCT_CHECK.value,
         productFormRepository.createProductCheckForm,
     )

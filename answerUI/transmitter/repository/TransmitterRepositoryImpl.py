@@ -39,7 +39,7 @@ class TransmitterRepositoryImpl(TransmitterRepository):
                     request = customProtocolRepository.execute(sendProtocol)
                     print(f"Request from repository: {request}")
 
-                    if sendProtocol == 5:
+                    if sendProtocol == 5 or sendProtocol == 0:
                         combinedRequestData = {
                             'protocol': sendProtocol,
                             'data': {},
@@ -65,6 +65,9 @@ class TransmitterRepositoryImpl(TransmitterRepository):
                     clientSocket.sendall(combinedRequestDataString.encode())
 
                     print('{} command 전송 [{}]'.format(datetime.now(), sendProtocol))
+
+                    if sendProtocol == 0:
+                        break
 
                 except (socket.error, BrokenPipeError) as exception:
                     print(f"사용자 연결 종료")

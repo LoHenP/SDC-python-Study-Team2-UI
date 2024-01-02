@@ -1,4 +1,5 @@
 from account_form.repository.AccountFormRepository import AccountFormRepository
+from custom_protocol.entity.CustomProtocol import CustomProtocol
 
 from utility.keyboard.KeyboardInput import KeyboardInput
 
@@ -30,3 +31,6 @@ class AccountFormRepositoryImpl(AccountFormRepository):
         userInputId = KeyboardInput.getKeyboardInput("아이디를 입력하세요:")
         userInputPassword = KeyboardInput.getKeyboardInput("비밀번호를 입력하세요:")
         return userInputId, userInputPassword
+
+    def createProgramCloseForm(self):
+        return
