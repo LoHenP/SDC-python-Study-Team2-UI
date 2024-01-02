@@ -25,8 +25,8 @@ class ProductFormRepositoryImpl(ProductFormRepository):
         return CustomProtocol.PRODUCT_LIST.value
 
     def createProductInfoForm(self):
-        productInfoNum = KeyboardInput.getKeyboardInput("상품 번호를 입력하세요.")
-        return productInfoNum, productInfoNum
+        productInfoNum = KeyboardInput.getKeyboardIntegerInput("상품 번호를 입력하세요.")
+        return productInfoNum
 
     def createProductAddForm(self):
         productName = KeyboardInput.getKeyboardInput("상품 이름을 입력하세요.")
