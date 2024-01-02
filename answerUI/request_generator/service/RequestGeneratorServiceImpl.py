@@ -15,7 +15,7 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
             cls.__requestFormGenerationTable[CustomProtocol.ACCOUNT_REGISTER.value] = cls.__instance.generateAccountRegisterRequest
             cls.__requestFormGenerationTable[
                 CustomProtocol.ACCOUNT_LOGIN.value] = cls.__instance.generateAccountLoginRequest
-            cls.__requestFormGenerationTable[CustomProtocol.PRODUCT_CHECK.value] = cls.__instance.generateProductCheckRequest
+            cls.__requestFormGenerationTable[CustomProtocol.PRODUCT_INFO.value] = cls.__instance.generateProductCheckRequest
             cls.__requestFormGenerationTable[CustomProtocol.PRODUCT_ADD.value] = cls.__instance.generateProductAddRequest
 
 
@@ -87,12 +87,13 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
     def generateProductAddRequest(self, arguments):
         print("RequestGeneratorService: product add")
 
-        if not isinstance(arguments, tuple) or len(arguments) != 2:
+        if not isinstance(arguments, tuple) or len(arguments) != 3:
             raise ValueError("Invalid request format")
 
         productRequestData = {
             '__productName': arguments[0].decode().strip(),
-            '__productInfo': arguments[1].decode().strip(),
+            '__productprice': arguments[1],
+            '__productinfo' : arguments[2].decode().strip()
         }
 
         return productRequestData

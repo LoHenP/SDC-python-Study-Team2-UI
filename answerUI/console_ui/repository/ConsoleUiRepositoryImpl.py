@@ -10,7 +10,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     __instance = None
     __uiMenuTable = {}
     __nothingNum = [0, 9]
-    __productListNum = [0, 5]
+    __productListNum = [0, 6]
 
     def __new__(cls):
         if cls.__instance is None:
@@ -55,7 +55,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             restrictChoice = self.__productListNum
 
         while(True):
-            userChoice = KeyboardInput.getKeyboardIntegerInput()
+            userChoice = KeyboardInput.getKeyboardIntegerInput("원하는 선택지를 입력하세요.")
             if restrictChoice[0] <= userChoice <= restrictChoice[1]:
                 return userChoice
             print("다시 입력 해주세요.")
@@ -107,8 +107,22 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("2. 상품 추가")
         print("3. 상품 수정")
         print("4. 상품 삭제")
-        print("5. 메뉴")
+        print("5. 로그인")
+        print("6. 회원가입")
+        print("0. 종료")
 
+    def __printProductCheck(self, response):
+        print("상품 조회")
+        print("------------------------")
+        print(f"")
+        print("------------------------")
+
+        print("1. 상품 목록")
+        print("2. 상품 수정")
+        print("3. 상품 삭제")
+        print("4. 로그인")
+        print("5. 회원가입")
+        print("0. 종료")
 
     def __printDefaultMenu(self):
 
