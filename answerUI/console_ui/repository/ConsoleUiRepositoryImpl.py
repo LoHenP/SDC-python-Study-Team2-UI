@@ -17,8 +17,14 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             cls.__instance = super().__new__(cls)
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.NOTHING.value] = cls.__instance.__printDefaultMenu
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ACCOUNT_REGISTER.value] = cls.__instance.__printDefaultMenu
-            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_LIST.value] = cls.__instance.__printProductList
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ACCOUNT_LOGIN.value] = cls.__instance.__printDefaultMenu
+            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_LIST.value] = cls.__instance.__printProductList
+            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_INFO.value] = cls.__instance.__printProductInfo
+            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_ADD.value] = cls.__instance.__printProductAdd
+            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_DELETE.value] = cls.__instance.__printProductDelete
+
+
+
 
 
 
@@ -96,13 +102,8 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         menu = self.__uiMenuTable[currentRoutingState.value]
         menu(response)
 
-
-    def __printProductList(self, response):
-        print("상품목록")
-
-        for i in response:
-            print(f"id: {i['id']}, name: {i['name']}, price: {i['price']}")
-
+    def __printProductMenu(self):
+        # 세션 확인해서 로그인중이면 로그아웃만 뜨게해야함
         print("1. 상품 조회")
         print("2. 상품 추가")
         print("3. 상품 수정")
@@ -111,12 +112,20 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("6. 회원가입")
         print("0. 종료")
 
-    def __printProductCheck(self, response):
+    def __printProductList(self, response):
+        print("상품목록")
+
+        for i in response:
+            print(f"id: {i['id']}, name: {i['name']}, price: {i['price']}")
+        self.__printProductMenu()
+
+    def __printProductInfo(self, response):
         print("상품 조회")
         print("------------------------")
         print(f"")
         print("------------------------")
 
+        #세션 로그인 확인 필요
         print("1. 상품 목록")
         print("2. 상품 수정")
         print("3. 상품 삭제")
@@ -124,7 +133,24 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("5. 회원가입")
         print("0. 종료")
 
+    def __printProductAdd(self, response):
+
+        #response 에서 실패 성공 받아서 둘중하나 출력
+        print("상품 추가 완료")
+        print("상품 추가 실패")
+
+        self.__printProductMenu()
+
+    def __printProductDelete(self, response):
+        #response 에서 실패 성공 받아서 둘중하나 출력
+        print("상품 삭제 성공")
+        print("상품 삭제 실패")
+
+        self.__printProductMenu()
+
+
     def __printDefaultMenu(self):
+        #세션 로그인 확인 필요
 
         print("메뉴")
         print("1. 로그인")
