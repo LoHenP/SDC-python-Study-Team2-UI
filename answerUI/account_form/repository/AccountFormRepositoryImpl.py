@@ -1,4 +1,5 @@
 from account_form.repository.AccountFormRepository import AccountFormRepository
+from console_ui.entity.Session import Session
 from custom_protocol.entity.CustomProtocol import CustomProtocol
 
 from utility.keyboard.KeyboardInput import KeyboardInput
@@ -14,6 +15,7 @@ class AccountFormRepositoryImpl(AccountFormRepository):
 
     def __init__(self):
         print("AccountFormRepositoryImpl 초기화 동작")
+        self.__session = Session()
 
     @classmethod
     def getInstance(cls):
@@ -31,6 +33,11 @@ class AccountFormRepositoryImpl(AccountFormRepository):
         userInputId = KeyboardInput.getKeyboardInput("아이디를 입력하세요:")
         userInputPassword = KeyboardInput.getKeyboardInput("비밀번호를 입력하세요:")
         return userInputId, userInputPassword
+
+    def AccountLogoutForm(self):
+        print("로그아웃합니다.")
+        sessionid = self.__session.get_session_id()
+        return sessionid
 
     def AccountDeleteForm(self):
         print('\033[31m'+"회원 탈퇴를 진행합니다."+'\033[0m')
