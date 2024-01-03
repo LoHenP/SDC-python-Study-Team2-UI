@@ -13,3 +13,11 @@ class ProductFormRepository(abc.ABC):
     @abc.abstractmethod
     def createProductAddForm(self):
         pass
+
+    @abc.abstractmethod
+    def createProductDeleteForm(self):
+        pass
+
+    @abc.abstractmethod
+    def createProductEditForm(self):
+        pass
