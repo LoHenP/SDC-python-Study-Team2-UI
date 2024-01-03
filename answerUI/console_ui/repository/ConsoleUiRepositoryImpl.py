@@ -1,5 +1,6 @@
 from console_ui.entity.ConsoleUiRoutingState import ConsoleUiRoutingState
 from console_ui.entity.ConsoleUiState import ConsoleUiState
+from console_ui.entity.Session import Session
 from console_ui.repository.ConsoleUiRepository import ConsoleUiRepository
 from custom_protocol.entity.CustomProtocol import CustomProtocol
 from utility.keyboard.KeyboardInput import KeyboardInput
@@ -16,8 +17,9 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.NOTHING.value] = cls.__instance.__printDefaultMenu
-            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ACCOUNT_REGISTER.value] = cls.__instance.__printDefaultMenu
-            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ACCOUNT_LOGIN.value] = cls.__instance.__printDefaultMenu
+            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ACCOUNT_REGISTER.value] = cls.__instance.__printAccountRegister
+            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ACCOUNT_LOGIN.value] = cls.__instance.__printAccountLogin
+            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ACCOUNT_LOGOUT.value] = cls.__instance.__printAccountLogout
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_LIST.value] = cls.__instance.__printProductList
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_INFO.value] = cls.__instance.__printProductInfo
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_ADD.value] = cls.__instance.__printProductAdd
@@ -35,6 +37,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("ConsoleUiRepository 초기화 동작")
 
         self.__consoleUiState = ConsoleUiState()
+        self.__session = Session()
 
     @classmethod
     def getInstance(cls):
@@ -52,9 +55,10 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     def saveRequestFormToTransmitQueue(self):
         pass
 
+
     def restrictUserInput(self):
         CurrentRoutingState = self.acquireCurrentRoutingState()
-        restrictChoice = []
+        restrictChoice = [0, 10] # 임시
         if CurrentRoutingState == ConsoleUiRoutingState.NOTHING:
             restrictChoice = self.__nothingNum
         if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_LIST:
@@ -102,6 +106,38 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         menu = self.__uiMenuTable[currentRoutingState.value]
         menu(response)
 
+    def __printDefaultMenu(self):
+        #세션 로그인 확인 필요
+
+        print("메뉴")
+        print("1. 로그인")
+        print("2. 회원가입")
+        print("5. 상품 목록")
+        print("6. 상품 조회")
+        print("7. 상품 추가")
+        print("0. 종료")
+
+    def __printAccountLogin(self, response):
+        print("로그인 성공")
+        sessionid = response['sessionid']
+        self.__session.set_session_id(sessionid)
+
+        checksessionid = self.__session.get_session_id()
+        print(f"sessionid: {checksessionid}")
+
+        self.__printDefaultMenu()
+
+    def __printAccountRegister(self, response):
+        print("회원가입 성공")
+        self.__printDefaultMenu()
+
+    def __printAccountLogout(self, response):
+        print("로그아웃 성공")
+        self.__session.set_session_id(-1)
+        checksessionid = self.__session.get_session_id()
+        print(f"sessionid: {checksessionid}")
+        self.__printDefaultMenu()
+
     def __printProductMenu(self):
         # 세션 확인해서 로그인중이면 로그아웃만 뜨게해야함
         print("1. 상품 조회")
@@ -134,7 +170,6 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("0. 종료")
 
     def __printProductAdd(self, response):
-
         #response 에서 실패 성공 받아서 둘중하나 출력
         print("상품 추가 완료")
         print("상품 추가 실패")
@@ -148,14 +183,3 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
         self.__printProductMenu()
 
-
-    def __printDefaultMenu(self):
-        #세션 로그인 확인 필요
-
-        print("메뉴")
-        print("1. 로그인")
-        print("2. 회원가입")
-        print("5. 상품 목록")
-        print("6. 상품 조회")
-        print("7. 상품 추가")
-        print("0. 종료")
