@@ -34,3 +34,13 @@ class ProductFormRepositoryImpl(ProductFormRepository):
         productInfo = KeyboardInput.getKeyboardInput("상품 정보를 입력하세요.")
         return productName, productPrice, productInfo
 
+    def createProductDeleteForm(self):
+        productNum = KeyboardInput.getKeyboardIntegerInput("삭제할 상품 번호를 입력하세요.")
+        return productNum
+
+    def createProductEditForm(self):
+        productEditNum = KeyboardInput.getKeyboardIntegerInput("수정할 상품의 번호를 입력하세요.")
+        productEditName = KeyboardInput.getKeyboardInput("수정할 상품의 이름을 입력하세요.")
+        productEditPrice = KeyboardInput.getKeyboardIntegerInput("수정할 상품의 가격을 입력하세요.")
+        productEditInfo = KeyboardInput.getKeyboardInput("수정할 상품의 내용을 입력하세요.")
+        return productEditNum, productEditName, productEditPrice, productEditInfo

@@ -11,9 +11,13 @@ from product.response.ProductReadResponse import ProductReadResponse
 class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     __instance = None
     __uiMenuTable = {}
+    # restrictUserInput
     __nothingNum = [0, 3]
     __productMenuNum = [0, 6]
+    __productMenuLogout = [0, 2, 4, 6]
     __productInfoNum = [0, 5]
+    __productInfoLogout = [0, 2, 3, 5]
+
 
     def __new__(cls):
         if cls.__instance is None:
@@ -26,10 +30,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_INFO.value] = cls.__instance.__printProductInfo
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_ADD.value] = cls.__instance.__printProductAdd
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_DELETE.value] = cls.__instance.__printProductDelete
-
-
-
-
+            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_EDIT.value] = cls.__instance.__printProductEdit
 
 
 
@@ -61,6 +62,33 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     def restrictUserInput(self):
         CurrentRoutingState = self.acquireCurrentRoutingState()
         restrictChoice = [0, 10] # 임시
+        if self.__session.get_session_id() == -1:
+            if CurrentRoutingState == ConsoleUiRoutingState.NOTHING or \
+                    CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGIN or \
+                    CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGOUT or \
+                    CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_REGISTER:
+                restrictChoice = self.__nothingNum
+                while (True):
+                    userChoice = KeyboardInput.getKeyboardIntegerInput("원하는 선택지를 입력하세요.")
+                    if restrictChoice[0] <= userChoice <= restrictChoice[1]:
+                        return userChoice
+                    print("다시 입력 해주세요.")
+
+            if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_LIST or \
+                    CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_ADD or \
+                    CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_DELETE:
+                restrictChoice = self.__productMenuLogout
+            if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_INFO:
+                restrictChoice = self.__productInfoLogout
+            while(True):
+                userChoice = KeyboardInput.getKeyboardIntegerInput("원하는 선택지를 입력하세요.")
+                if restrictChoice[1] <= userChoice <= restrictChoice[2]:
+                    print("로그인을 해야 이용 가능합니다.")
+                if restrictChoice[0] <= userChoice < restrictChoice[1] or \
+                        restrictChoice[2] < userChoice <= restrictChoice[3]:
+                    return userChoice
+                print("다시 입력 해주세요.")
+
         if CurrentRoutingState == ConsoleUiRoutingState.NOTHING or \
             CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGIN or \
             CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGOUT or \
@@ -250,12 +278,15 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
         for i in response:
             print(f"id: {i['id']}, name: {i['name']}, price: {i['price']}")
+
         self.__printProductMenu()
 
     def __printProductInfo(self, response):
         print("상품 조회")
         print("------------------------")
-        print(f"")
+        print(f"name : {response['name']}")
+        print(f"price : {response['price']}")
+        print(f"info : {response['info']}")
         print("------------------------")
 
         #세션 로그인 확인 필요
@@ -288,5 +319,11 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         #response 에서 실패 성공 받아서 둘중하나 출력
         print("상품 삭제 성공")
         print("상품 삭제 실패")
+
+        self.__printProductMenu()
+
+    def __printProductEdit(self, response):
+        print("상품 수정 성공")
+        print("상품 수정 실패")
 
         self.__printProductMenu()
