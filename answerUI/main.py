@@ -69,6 +69,10 @@ def registerProtocol():
         accountFormRepository.AccountLoginForm,
     )
 
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.ACCOUNT_DELETE.value,
+        accountFormRepository.AccountDeleteForm,
+    )
 
 
 

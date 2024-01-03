@@ -10,3 +10,7 @@ class AccountFormRepository(abc.ABC):
     @abc.abstractmethod
     def AccountLoginForm(self):
         pass
+
+    @abc.abstractmethod
+    def AccountDeleteForm(self):
+        pass

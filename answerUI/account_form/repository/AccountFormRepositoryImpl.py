@@ -32,5 +32,10 @@ class AccountFormRepositoryImpl(AccountFormRepository):
         userInputPassword = KeyboardInput.getKeyboardInput("비밀번호를 입력하세요:")
         return userInputId, userInputPassword
 
+    def AccountDeleteForm(self):
+        userInputId = KeyboardInput.getKeyboardInput("아이디를 입력하세요:")
+        userinputPassword = KeyboardInput.getKeyboardInput("비밀번호를 입력하세요:")
+        return userInputId, userinputPassword
+
     def createProgramCloseForm(self):
         return
