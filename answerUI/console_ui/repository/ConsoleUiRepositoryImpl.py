@@ -11,8 +11,9 @@ from product.response.ProductReadResponse import ProductReadResponse
 class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     __instance = None
     __uiMenuTable = {}
-    __nothingNum = [0, 9]
-    __productListNum = [0, 6]
+    __nothingNum = [0, 3]
+    __productMenuNum = [0, 6]
+    __productInfoNum = [0, 5]
 
     def __new__(cls):
         if cls.__instance is None:
@@ -60,10 +61,17 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     def restrictUserInput(self):
         CurrentRoutingState = self.acquireCurrentRoutingState()
         restrictChoice = [0, 10] # 임시
-        if CurrentRoutingState == ConsoleUiRoutingState.NOTHING:
+        if CurrentRoutingState == ConsoleUiRoutingState.NOTHING or \
+            CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGIN or \
+            CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGOUT or \
+            CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_REGISTER:
             restrictChoice = self.__nothingNum
-        if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_LIST:
-            restrictChoice = self.__productListNum
+        if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_LIST or \
+            CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_ADD or \
+            CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_DELETE:
+            restrictChoice = self.__productMenuNum
+        if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_INFO:
+            restrictChoice = self.__productInfoNum
 
         while(True):
             userChoice = KeyboardInput.getKeyboardIntegerInput("원하는 선택지를 입력하세요.")
@@ -77,11 +85,67 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     def userInputConverter(self, userChoice):
         CurrentRoutingState = self.acquireCurrentRoutingState()
         print(f"Current Routing State: {CurrentRoutingState}")
-        if CurrentRoutingState == ConsoleUiRoutingState.NOTHING:
-            return userChoice
-        if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_LIST:
+        if self.__session.get_session_id() == -1:
+            if CurrentRoutingState == ConsoleUiRoutingState.NOTHING or \
+                CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGIN or \
+                CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGOUT or \
+                CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_REGISTER:
+                if userChoice == 1:
+                    return CustomProtocol.ACCOUNT_LOGIN.value
+                if userChoice == 2:
+                    return CustomProtocol.ACCOUNT_REGISTER.value
+                if userChoice == 3:
+                    return CustomProtocol.PRODUCT_LIST.value
+                if userChoice == 0:
+                    return CustomProtocol.PROGRAM_CLOSE.value
+            if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_LIST or \
+                CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_ADD or \
+                CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_DELETE:
+                if userChoice == 1:
+                    return CustomProtocol.PRODUCT_INFO.value
+                if userChoice == 2:
+                    return CustomProtocol.PRODUCT_ADD.value
+                if userChoice == 3:
+                    return CustomProtocol.PRODUCT_EDIT.value
+                if userChoice == 4:
+                    return CustomProtocol.PRODUCT_DELETE.value
+                if userChoice == 5:
+                    return CustomProtocol.ACCOUNT_LOGIN.value
+                if userChoice == 6:
+                    return CustomProtocol.ACCOUNT_REGISTER.value
+                if userChoice == 0:
+                    return CustomProtocol.PROGRAM_CLOSE.value
+            if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_INFO:
+                if userChoice == 1:
+                    return CustomProtocol.PRODUCT_LIST.value
+                if userChoice == 2:
+                    return CustomProtocol.PRODUCT_EDIT.value
+                if userChoice == 3:
+                    return CustomProtocol.PRODUCT_DELETE.value
+                if userChoice == 4:
+                    return CustomProtocol.ACCOUNT_LOGIN.value
+                if userChoice == 5:
+                    return CustomProtocol.ACCOUNT_REGISTER.value
+                if userChoice == 0:
+                    return CustomProtocol.PROGRAM_CLOSE.value
+
+        if CurrentRoutingState == ConsoleUiRoutingState.NOTHING or \
+                CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGIN or \
+                CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGOUT or \
+                CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_REGISTER:
             if userChoice == 1:
-                return CustomProtocol.PRODUCT_CHECK.value
+                return CustomProtocol.ACCOUNT_LOGOUT.value
+            if userChoice == 2:
+                return CustomProtocol.ACCOUNT_DELETE.value
+            if userChoice == 3:
+                return CustomProtocol.PRODUCT_LIST.value
+            if userChoice == 0:
+                return CustomProtocol.PROGRAM_CLOSE.value
+        if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_LIST or \
+                CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_ADD or \
+                CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_DELETE:
+            if userChoice == 1:
+                return CustomProtocol.PRODUCT_INFO.value
             if userChoice == 2:
                 return CustomProtocol.PRODUCT_ADD.value
             if userChoice == 3:
@@ -89,7 +153,24 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             if userChoice == 4:
                 return CustomProtocol.PRODUCT_DELETE.value
             if userChoice == 5:
-                return userChoice
+                return CustomProtocol.ACCOUNT_LOGOUT.value
+            if userChoice == 6:
+                return CustomProtocol.ACCOUNT_DELETE.value
+            if userChoice == 0:
+                return CustomProtocol.PROGRAM_CLOSE.value
+        if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_INFO:
+            if userChoice == 1:
+                return CustomProtocol.PRODUCT_LIST.value
+            if userChoice == 2:
+                return CustomProtocol.PRODUCT_EDIT.value
+            if userChoice == 3:
+                return CustomProtocol.PRODUCT_DELETE.value
+            if userChoice == 4:
+                return CustomProtocol.ACCOUNT_LOGOUT.value
+            if userChoice == 5:
+                return CustomProtocol.ACCOUNT_DELETE.value
+            if userChoice == 0:
+                return CustomProtocol.PROGRAM_CLOSE.value
         return userChoice
 
 
@@ -109,21 +190,23 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
     def __printDefaultMenu(self):
         #세션 로그인 확인 필요
+        if self.__session.get_session_id() == -1:
+            print("메뉴")
+            print("1. 로그인")
+            print("2. 회원가입")
+            print("3. 상품 목록")
+            print("0. 종료")
+            return
 
         print("메뉴")
-        print("1. 로그인")
-        print("2. 회원가입")
-        print("5. 상품 목록")
-        print("6. 상품 조회")
-        print("7. 상품 추가")
+        print("1. 로그아웃")
+        print("2. 회원 탈퇴")
+        print("3. 상품 목록")
         print("0. 종료")
-        # 기능 확인을 위해 임시로 '초기메뉴'에 '회원탈퇴' 메뉴를 노출시킴.
-        # 세션id 기능 활성화 시 '로그인된 상태'에서만 '회원탈퇴 메뉴'를 노출해야 함.
-        print("4. 회원탈퇴 - 세션id 구현 후 메뉴 이동 필요")
 
     def __printAccountLogin(self, response):
-        print("로그인 성공")
-        sessionid = response['sessionid']
+        print(response['message'])
+        sessionid = response['sessionAccountId']
         self.__session.set_session_id(sessionid)
 
         checksessionid = self.__session.get_session_id()
@@ -144,12 +227,22 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
     def __printProductMenu(self):
         # 세션 확인해서 로그인중이면 로그아웃만 뜨게해야함
+        if self.__session.get_session_id() == -1:
+            print("1. 상품 조회")
+            print("2. 상품 추가")
+            print("3. 상품 수정")
+            print("4. 상품 삭제")
+            print("5. 로그인")
+            print("6. 회원가입")
+            print("0. 종료")
+            return
+
         print("1. 상품 조회")
         print("2. 상품 추가")
         print("3. 상품 수정")
         print("4. 상품 삭제")
-        print("5. 로그인")
-        print("6. 회원가입")
+        print("5. 로그아웃")
+        print("6. 회원 탈퇴")
         print("0. 종료")
 
     def __printProductList(self, response):
@@ -166,12 +259,23 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("------------------------")
 
         #세션 로그인 확인 필요
+        if self.__session.get_session_id() == -1:
+            print("1. 상품 목록")
+            print("2. 상품 수정")
+            print("3. 상품 삭제")
+            print("4. 로그인")
+            print("5. 회원가입")
+            print("0. 종료")
+            return
+
+
         print("1. 상품 목록")
         print("2. 상품 수정")
         print("3. 상품 삭제")
-        print("4. 로그인")
-        print("5. 회원가입")
+        print("4. 로그아웃")
+        print("5. 회원탈퇴")
         print("0. 종료")
+
 
     def __printProductAdd(self, response):
         #response 에서 실패 성공 받아서 둘중하나 출력

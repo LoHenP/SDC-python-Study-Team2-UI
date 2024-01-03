@@ -101,7 +101,7 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         productRequestData = {
             '__productName': arguments[0].decode().strip(),
             '__productprice': arguments[1],
-            '__productinfo' : arguments[2].decode().strip()
+            '__productinfo': arguments[2].decode().strip()
         }
 
         return productRequestData

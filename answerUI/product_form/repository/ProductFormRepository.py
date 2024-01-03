@@ -8,3 +8,8 @@ class ProductFormRepository(abc.ABC):
     @abc.abstractmethod
     def createProductInfoForm(self):
         pass
+
+
+    @abc.abstractmethod
+    def createProductAddForm(self):
+        pass
