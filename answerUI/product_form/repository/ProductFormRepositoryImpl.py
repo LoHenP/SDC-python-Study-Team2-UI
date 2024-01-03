@@ -33,3 +33,4 @@ class ProductFormRepositoryImpl(ProductFormRepository):
         productPrice = KeyboardInput.getKeyboardIntegerInput("상품 가격을 입력하세요.")
         productInfo = KeyboardInput.getKeyboardInput("상품 정보를 입력하세요.")
         return productName, productPrice, productInfo
+
