@@ -8,7 +8,7 @@ from unittest.mock import patch, Mock
 
 from console_ui.entity.Session import Session
 from utility.keyboard.KeyboardInput import KeyboardInput
-
+from product.response.ProductReadResponse import ProductReadResponse
 
 class TestUlgyCode(unittest.TestCase):
     def testRequestFormatter(self):
@@ -90,6 +90,16 @@ class TestUlgyCode(unittest.TestCase):
         if not receiveQueue.empty():
             print('3not empty')
         sleep(0.5)
+    #
+    # def testProductRead(self):
+    #     res = {'protocol': 5, 'data': {'id':1, 'accountid':3}}
+    #     print(type(res))
+    #     print(res['data']['id'])
+    #     __productRead = ProductReadResponse()
+    #     self.__productRead(res['data']['id'], res['data']['accountid'])
+    #     a = self._
+    #     b = ProductReadResponse.get_product_accountId()
+    #     print(a,b)
 
 if __name__ == '__main__':
     unittest.main()

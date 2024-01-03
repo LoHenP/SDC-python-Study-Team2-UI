@@ -4,6 +4,7 @@ from console_ui.entity.Session import Session
 from console_ui.repository.ConsoleUiRepository import ConsoleUiRepository
 from custom_protocol.entity.CustomProtocol import CustomProtocol
 from utility.keyboard.KeyboardInput import KeyboardInput
+from product.response.ProductReadResponse import ProductReadResponse
 
 
 
@@ -38,6 +39,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
         self.__consoleUiState = ConsoleUiState()
         self.__session = Session()
+        self.__productReadResponse = ProductReadResponse()
 
     @classmethod
     def getInstance(cls):
@@ -157,6 +159,8 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
     def __printProductInfo(self, response):
         print("상품 조회")
+        self.__productReadResponse.set_id(response['data']['id'])
+        self.__productReadResponse.set_accountId(['data']['accountId'])
         print("------------------------")
         print(f"")
         print("------------------------")
