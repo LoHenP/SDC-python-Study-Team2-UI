@@ -16,6 +16,7 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
             cls.__requestFormGenerationTable[CustomProtocol.ACCOUNT_REGISTER.value] = cls.__instance.generateAccountRegisterRequest
             cls.__requestFormGenerationTable[
                 CustomProtocol.ACCOUNT_LOGIN.value] = cls.__instance.generateAccountLoginRequest
+            cls.__requestFormGenerationTable[CustomProtocol.ACCOUNT_LOGOUT.value] = cls.__instance.generateAccountLogoutRequest
             cls.__requestFormGenerationTable[CustomProtocol.ACCOUNT_DELETE.value] = cls.__instance.generateAccountDeleteRequest
             cls.__requestFormGenerationTable[CustomProtocol.PRODUCT_INFO.value] = cls.__instance.generateProductInfoRequest
             cls.__requestFormGenerationTable[CustomProtocol.PRODUCT_ADD.value] = cls.__instance.generateProductAddRequest
