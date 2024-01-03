@@ -122,8 +122,8 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         }
 
         return productRequestData
-      
-      def generateProductDeleteRequest(self, arguments):
+
+    def generateProductDeleteRequest(self, arguments):
         print("RequestGeneratorService: product delete form")
 
         productRequestData = {
