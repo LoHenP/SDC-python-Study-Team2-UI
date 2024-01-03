@@ -4,6 +4,7 @@ from time import sleep
 from decouple import config
 
 from account_form.repository.AccountFormRepositoryImpl import AccountFormRepositoryImpl
+from order_form.repository.OrderFormRepositoryImpl import OrderFormRepositoryImpl
 from product_form.repository.ProductFormRepositoryImpl import ProductFormRepositoryImpl
 
 # pip3 install python-decouple
@@ -38,6 +39,17 @@ def registerProtocol():
     customProtocolService = CustomProtocolServiceImpl.getInstance()
     accountFormRepository = AccountFormRepositoryImpl.getInstance()
     productFormRepository = ProductFormRepositoryImpl.getInstance()
+    orderFormRepository = OrderFormRepositoryImpl.get_instance()
+
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.ORDER_PURCHASE.value,
+        orderFormRepository.createOrderPurchaseForm,
+    )
+
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.ORDER_LIST.value,
+        orderFormRepository.createOrderListForm,
+    )
 
     customProtocolService.registerCustomProtocol(
         CustomProtocol.PROGRAM_CLOSE.value,

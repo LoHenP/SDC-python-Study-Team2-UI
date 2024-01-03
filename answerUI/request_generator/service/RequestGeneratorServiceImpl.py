@@ -18,6 +18,8 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
             cls.__requestFormGenerationTable[CustomProtocol.ACCOUNT_DELETE.value] = cls.__instance.generateAccountDeleteRequest
             cls.__requestFormGenerationTable[CustomProtocol.PRODUCT_INFO.value] = cls.__instance.generateProductInfoRequest
             cls.__requestFormGenerationTable[CustomProtocol.PRODUCT_ADD.value] = cls.__instance.generateProductAddRequest
+            cls.__requestFormGenerationTable[CustomProtocol.ORDER_PURCHASE.value] = cls.__instance.generateOrderPurchaseRequest
+            cls.__requestFormGenerationTable[CustomProtocol.ORDER_LIST.value] = cls.__instance.generateOrderListRequest
 
 
         return cls.__instance
@@ -107,3 +109,21 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         }
 
         return productRequestData
+
+    def generateOrderPurchaseRequest(self, arguments):
+        print("RequestGeneratorService: order purchase form")
+
+        orderRequestData = {
+            '__orderId': arguments
+        }
+
+        return orderRequestData
+
+    def generateOrderListRequest(self, arguments):
+        print("RequestGeneratorService: order list form")
+
+        orderRequestData = {
+            '__orderList': arguments
+        }
+
+        return orderRequestData
