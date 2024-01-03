@@ -70,6 +70,11 @@ def registerProtocol():
     )
 
     customProtocolService.registerCustomProtocol(
+        CustomProtocol.ACCOUNT_LOGOUT.value,
+        accountFormRepository.AccountLogoutForm,
+    )
+
+    customProtocolService.registerCustomProtocol(
         CustomProtocol.ACCOUNT_DELETE.value,
         accountFormRepository.AccountDeleteForm,
     )

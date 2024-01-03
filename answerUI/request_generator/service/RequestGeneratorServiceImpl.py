@@ -1,5 +1,6 @@
 import ast
 
+from console_ui.entity.Session import Session
 from custom_protocol.entity.CustomProtocol import CustomProtocol
 from request_generator.service.RequestGeneratorService import RequestGeneratorService
 
@@ -24,6 +25,7 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
 
     def __init__(self):
         print("RequestGeneratorServiceImpl 생성자 호출")
+
 
     @classmethod
     def getInstance(cls):
@@ -69,6 +71,16 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         }
 
         return accountRequestData
+
+    def generateAccountLogoutRequest(self, arguments):
+        print("RequestGeneratorService: Account Logout form")
+
+        accountRequestData = {
+            '__data': arguments
+        }
+
+        return accountRequestData
+
 
     def generateAccountDeleteRequest(self, arguments):
         print("RequestGeneratorService: account delete form")
