@@ -37,7 +37,7 @@ class ConsolePrinterRepositoryImpl(ConsolePrinterRepository):
                 response = receiveQueue.get()
                 print(f"Received response: {response}")
                 print(f"type: {type(response)}")
-                evalresponse = json.loads(response)
+                evalresponse = eval(response)
                 print(f"evalresponse: {evalresponse}")
                 print(f"type: {type(evalresponse)}")
 

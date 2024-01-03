@@ -39,7 +39,6 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
         self.__consoleUiState = ConsoleUiState()
         self.__session = Session()
-        self.__productReadResponse = ProductReadResponse()
 
     @classmethod
     def getInstance(cls):
@@ -90,7 +89,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             if userChoice == 4:
                 return CustomProtocol.PRODUCT_DELETE.value
             if userChoice == 5:
-                return 12
+                return userChoice
         return userChoice
 
 
@@ -162,8 +161,6 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
     def __printProductInfo(self, response):
         print("상품 조회")
-        self.__productReadResponse.set_id(response['data']['id'])
-        self.__productReadResponse.set_accountId(['data']['accountId'])
         print("------------------------")
         print(f"")
         print("------------------------")
