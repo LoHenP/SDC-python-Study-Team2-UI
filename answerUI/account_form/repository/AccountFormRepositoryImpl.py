@@ -33,9 +33,17 @@ class AccountFormRepositoryImpl(AccountFormRepository):
         return userInputId, userInputPassword
 
     def AccountDeleteForm(self):
+        print('\033[31m'+"회원 탈퇴를 진행합니다."+'\033[0m')
         userInputId = KeyboardInput.getKeyboardInput("아이디를 입력하세요:")
-        userinputPassword = KeyboardInput.getKeyboardInput("비밀번호를 입력하세요:")
-        return userInputId, userinputPassword
+        userInputPassword = KeyboardInput.getKeyboardInput("비밀번호를 입력하세요:")
+        return userInputId, userInputPassword
+        # userInputTrans = KeyboardInput.getKeyboardInput('\033[31m'+"회원 탈퇴를 진행할까요? (y/n):"+'\033[0m')
+        # print(userInputId, userInputPassword, userInputTrans)
+        # if userInputTrans == "b'y\n" or userInputTrans == "b'Y\n":
+        #     return userInputId, userInputPassword
+        # else:
+        #     # 회원 탈퇴를 취소할 경우 되돌아가는 경로가 필요함
+        #     return None, None
 
     def createProgramCloseForm(self):
         return

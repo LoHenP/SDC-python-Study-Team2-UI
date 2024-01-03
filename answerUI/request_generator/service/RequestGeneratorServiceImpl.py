@@ -81,6 +81,8 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
             '__password': arguments[1].decode().strip(),
         }
 
+        return accountRequestData
+
 
     def generateProductInfoRequest(self, arguments):
         print("RequestGeneratorService: product Info form")
