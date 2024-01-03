@@ -55,6 +55,16 @@ def registerProtocol():
     )
 
     customProtocolService.registerCustomProtocol(
+        CustomProtocol.PRODUCT_DELETE.value,
+        productFormRepository.createProductDeleteForm,
+    )
+
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.PRODUCT_EDIT.value,
+        productFormRepository.createProductEditForm,
+    )
+
+    customProtocolService.registerCustomProtocol(
         CustomProtocol.PRODUCT_LIST.value,
         productFormRepository.createProductListForm,
     )

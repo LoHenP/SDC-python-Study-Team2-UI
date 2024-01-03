@@ -19,6 +19,8 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
             cls.__requestFormGenerationTable[CustomProtocol.ACCOUNT_DELETE.value] = cls.__instance.generateAccountDeleteRequest
             cls.__requestFormGenerationTable[CustomProtocol.PRODUCT_INFO.value] = cls.__instance.generateProductInfoRequest
             cls.__requestFormGenerationTable[CustomProtocol.PRODUCT_ADD.value] = cls.__instance.generateProductAddRequest
+            cls.__requestFormGenerationTable[CustomProtocol.PRODUCT_DELETE.value] = cls.__instance.generateProductDeleteRequest
+            cls.__requestFormGenerationTable[CustomProtocol.PRODUCT_EDIT.value] = cls.__instance.generateProductEditRequest
 
 
         return cls.__instance
@@ -100,7 +102,7 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         print("RequestGeneratorService: product Info form")
 
         productRequestData = {
-            '__data': arguments
+            'id': arguments
         }
 
         return productRequestData
@@ -113,9 +115,33 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
             raise ValueError("Invalid request format")
 
         productRequestData = {
-            '__productName': arguments[0].decode().strip(),
-            '__productprice': arguments[1],
-            '__productinfo': arguments[2].decode().strip()
+            'name': arguments[0].decode().strip(),
+            'price': arguments[1],
+            'info': arguments[2].decode().strip()
+        }
+
+        return productRequestData
+
+    def generateProductDeleteRequest(self, arguments):
+        print("RequestGeneratorService: product delete form")
+
+        productRequestData = {
+            'id': arguments
+        }
+
+        return productRequestData
+
+    def generateProductEditRequest(self, arguments):
+        print("RequestGeneratorService: product edit")
+
+        if not isinstance(arguments, tuple) or len(arguments) != 4:
+            raise ValueError("Invalid request format")
+
+        productRequestData = {
+            'id': arguments[0].decode().strip(),
+            'name': arguments[1].decode().strip(),
+            'price': arguments[2],
+            'info': arguments[3].decode().strip()
         }
 
         return productRequestData
