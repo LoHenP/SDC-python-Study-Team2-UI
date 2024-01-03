@@ -11,12 +11,12 @@ from product.response.ProductReadResponse import ProductReadResponse
 class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     __instance = None
     __uiMenuTable = {}
+    # restrictUserInput
     __nothingNum = [0, 3]
-    __nothingLogout = [0, 3]
     __productMenuNum = [0, 6]
-    __productMenuLogout = [2, 4]
+    __productMenuLogout = [0, 2, 4, 6]
     __productInfoNum = [0, 5]
-    __productInfoLogout = [2, 3]
+    __productInfoLogout = [0, 2, 3, 5]
 
 
     def __new__(cls):
@@ -68,17 +68,25 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
                     CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGOUT or \
                     CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_REGISTER:
                 restrictChoice = self.__nothingNum
+                while (True):
+                    userChoice = KeyboardInput.getKeyboardIntegerInput("원하는 선택지를 입력하세요.")
+                    if restrictChoice[0] <= userChoice <= restrictChoice[1]:
+                        return userChoice
+                    print("다시 입력 해주세요.")
+
             if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_LIST or \
                     CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_ADD or \
                     CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_DELETE:
-                restrictChoice = self.__productMenuNum
+                restrictChoice = self.__productMenuLogout
             if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_INFO:
-                restrictChoice = self.__productInfoNum
+                restrictChoice = self.__productInfoLogout
             while(True):
                 userChoice = KeyboardInput.getKeyboardIntegerInput("원하는 선택지를 입력하세요.")
-                if restrictChoice[0] <= userChoice <= restrictChoice[1]:
+                if restrictChoice[1] <= userChoice <= restrictChoice[2]:
                     print("로그인을 해야 이용 가능합니다.")
-
+                if restrictChoice[0] <= userChoice < restrictChoice[1] or \
+                        restrictChoice[2] < userChoice <= restrictChoice[3]:
+                    return userChoice
                 print("다시 입력 해주세요.")
 
         if CurrentRoutingState == ConsoleUiRoutingState.NOTHING or \
@@ -270,6 +278,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
         for i in response:
             print(f"id: {i['id']}, name: {i['name']}, price: {i['price']}")
+
         self.__printProductMenu()
 
     def __printProductInfo(self, response):
