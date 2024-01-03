@@ -22,6 +22,8 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
             cls.__requestFormGenerationTable[CustomProtocol.PRODUCT_ADD.value] = cls.__instance.generateProductAddRequest
             cls.__requestFormGenerationTable[CustomProtocol.PRODUCT_DELETE.value] = cls.__instance.generateProductDeleteRequest
             cls.__requestFormGenerationTable[CustomProtocol.PRODUCT_EDIT.value] = cls.__instance.generateProductEditRequest
+            cls.__requestFormGenerationTable[CustomProtocol.ORDER_PURCHASE.value] = cls.__instance.generateOrderPurchaseRequest
+            cls.__requestFormGenerationTable[CustomProtocol.ORDER_LIST.value] = cls.__instance.generateOrderListRequest
 
 
         return cls.__instance
@@ -84,7 +86,6 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
 
         return accountRequestData
 
-
     def generateAccountDeleteRequest(self, arguments):
         print("RequestGeneratorService: account delete form")
 
@@ -97,7 +98,6 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         }
 
         return accountRequestData
-
 
     def generateProductInfoRequest(self, arguments):
         print("RequestGeneratorService: product Info form")
@@ -122,8 +122,8 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         }
 
         return productRequestData
-
-    def generateProductDeleteRequest(self, arguments):
+      
+      def generateProductDeleteRequest(self, arguments):
         print("RequestGeneratorService: product delete form")
 
         productRequestData = {
@@ -146,3 +146,21 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         }
 
         return productRequestData
+
+    def generateOrderPurchaseRequest(self, arguments):
+        print("RequestGeneratorService: order purchase form")
+
+        orderRequestData = {
+            '__orderId': arguments
+        }
+
+        return orderRequestData
+
+    def generateOrderListRequest(self, arguments):
+        print("RequestGeneratorService: order list form")
+
+        orderRequestData = {
+            '__orderList': arguments
+        }
+
+        return orderRequestData
