@@ -159,3 +159,6 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("6. 상품 조회")
         print("7. 상품 추가")
         print("0. 종료")
+        # 기능 확인을 위해 임시로 '초기메뉴'에 '회원탈퇴' 메뉴를 노출시킴.
+        # 세션id 기능 활성화 시 '로그인된 상태'에서만 '회원탈퇴 메뉴'를 노출해야 함.
+        print("4. 회원탈퇴 - 세션id 구현 후 메뉴 이동 필요")
