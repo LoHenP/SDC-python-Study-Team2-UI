@@ -167,7 +167,7 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         print("RequestGeneratorService: order delete form")
 
         orderRequestData = {
-            '__accountSessionId': sessionId[0],
+            '__accountSessionId': sessionId[0]
         }
 
         return orderRequestData

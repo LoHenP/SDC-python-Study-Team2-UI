@@ -81,6 +81,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
                     CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGIN or \
                     CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGOUT or \
                     CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_REGISTER or \
+                    CurrentRoutingState == ConsoleUiRoutingState.ORDER_PURCHASE or \
                     CurrentRoutingState == ConsoleUiRoutingState.ORDER_DELETE:
                 restrictChoice = self.__nothingLogout
                 while (True):
@@ -109,6 +110,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGIN or \
             CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGOUT or \
             CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_REGISTER or \
+            CurrentRoutingState == ConsoleUiRoutingState.ORDER_PURCHASE or \
             CurrentRoutingState == ConsoleUiRoutingState.ORDER_DELETE:
             restrictChoice = self.__nothingNum
         if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_LIST or \
@@ -137,7 +139,9 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             if CurrentRoutingState == ConsoleUiRoutingState.NOTHING or \
                 CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGIN or \
                 CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGOUT or \
-                CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_REGISTER:
+                CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_REGISTER or \
+                CurrentRoutingState == ConsoleUiRoutingState.ORDER_PURCHASE or \
+                CurrentRoutingState == ConsoleUiRoutingState.ORDER_DELETE:
                 if userChoice == 1:
                     return CustomProtocol.ACCOUNT_LOGIN.value
                 if userChoice == 2:
@@ -187,7 +191,9 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         if CurrentRoutingState == ConsoleUiRoutingState.NOTHING or \
                 CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGIN or \
                 CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGOUT or \
-                CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_REGISTER:
+                CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_REGISTER or \
+                CurrentRoutingState == ConsoleUiRoutingState.ORDER_PURCHASE or \
+                CurrentRoutingState == ConsoleUiRoutingState.ORDER_DELETE:
             if userChoice == 1:
                 return CustomProtocol.ACCOUNT_LOGOUT.value
             if userChoice == 2:
@@ -349,7 +355,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print('\033[31m \033[107m'+"[][] 상품 목록 [][]"+'\033[0m')
         try:
             for i in response:
-                print(f"id: {i['__productId']}, name: {i['__productName']}, price: {i['__productPrice']}")
+                print(f"name: {i['__productName']}, price: {i['__productPrice']}")
             self.__printProductMenu()
         except Exception as e:
             self.__printDefaultMenu()
@@ -357,7 +363,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
     def __printProductInfo(self, response=None):
         print('\033[31m \033[107m'+"[][] 상품 조회 [][]"+'\033[0m')
-        self.__productId = response['id']
+        self.__productId = response['__productId']
         print("------------------------")
         print(f"name : {response['__productName']}")
         print(f"price : {response['__productPrice']}")
