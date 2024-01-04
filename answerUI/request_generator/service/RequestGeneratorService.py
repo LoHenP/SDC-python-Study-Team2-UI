@@ -8,13 +8,13 @@ class RequestGeneratorService(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def generateAccountRegisterRequest(self, arguments):
+    def generateAccountRegisterRequest(self, arguments, sessionId):
         pass
 
     @abc.abstractmethod
-    def generateAccountLoginRequest(self, arguments):
+    def generateAccountLoginRequest(self, arguments, sessionId):
         pass
 
     @abc.abstractmethod
-    def generateProductInfoRequest(self, arguments):
+    def generateProductInfoRequest(self, arguments, sessionId):
         pass
