@@ -355,7 +355,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print('\033[31m \033[107m'+"[][] 상품 목록 [][]"+'\033[0m')
         try:
             for i in response:
-                print(f"name: {i['__productName']}, price: {i['__productPrice']}")
+                print(f"id: {i['__productId']}, name: {i['__productName']}, price: {i['__productPrice']}")
             self.__printProductMenu()
         except Exception as e:
             self.__printDefaultMenu()
