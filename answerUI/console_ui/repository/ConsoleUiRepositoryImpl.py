@@ -79,7 +79,8 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             if CurrentRoutingState == ConsoleUiRoutingState.NOTHING or \
                     CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGIN or \
                     CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGOUT or \
-                    CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_REGISTER:
+                    CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_REGISTER or \
+                    CurrentRoutingState == ConsoleUiRoutingState.ORDER_DELETE:
                 restrictChoice = self.__nothingLogout
                 while (True):
                     userChoice = KeyboardInput.getKeyboardIntegerInput('\033[95m'+"원하는 선택지를 입력하세요.:"+'\033[0m')
@@ -106,7 +107,8 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         if CurrentRoutingState == ConsoleUiRoutingState.NOTHING or \
             CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGIN or \
             CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGOUT or \
-            CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_REGISTER:
+            CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_REGISTER or \
+            CurrentRoutingState == ConsoleUiRoutingState.ORDER_DELETE:
             restrictChoice = self.__nothingNum
         if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_LIST or \
             CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_ADD or \
@@ -391,4 +393,9 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("3. 로그아웃")
         print("0. 종료")
 
-        
+    def __printOrderDelete(self, response):
+        print("주문 취소 성공")
+        print("주문 취소 실패")
+
+        self.__printDefaultMenu()
+

@@ -23,6 +23,7 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
             cls.__requestFormGenerationTable[CustomProtocol.PRODUCT_EDIT.value] = cls.__instance.generateProductEditRequest
             cls.__requestFormGenerationTable[CustomProtocol.ORDER_PURCHASE.value] = cls.__instance.generateOrderPurchaseRequest
             cls.__requestFormGenerationTable[CustomProtocol.ORDER_LIST.value] = cls.__instance.generateOrderListRequest
+            cls.__requestFormGenerationTable[CustomProtocol.ORDER_DELETE.value] = cls.__instance.generateOrderDeleteRequest
 
 
         return cls.__instance
@@ -161,3 +162,13 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
 
         return orderRequestData
 
+
+    def generateOrderDeleteRequest(self, arguments, sessionId):
+        print("RequestGeneratorService: order delete form")
+
+        orderRequestData = {
+            '__accountSessionId': sessionId[0],
+            '__productId': arguments
+        }
+
+        return orderRequestData
