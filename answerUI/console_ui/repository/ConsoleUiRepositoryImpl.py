@@ -33,6 +33,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ACCOUNT_REGISTER.value] = cls.__instance.__printAccountRegister
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ACCOUNT_LOGIN.value] = cls.__instance.__printAccountLogin
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ACCOUNT_LOGOUT.value] = cls.__instance.__printAccountLogout
+            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ACCOUNT_DELETE.value] = cls.__instance.__printAccountDelete
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_LIST.value] = cls.__instance.__printProductList
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_INFO.value] = cls.__instance.__printProductInfo
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_ADD.value] = cls.__instance.__printProductAdd
@@ -308,6 +309,14 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
     def __printAccountLogout(self, response):
         print("로그아웃 성공")
+        self.__sessionId = -1
+        Session().set_session_id(self.__sessionId)
+        checksessionid = self.__sessionId
+        print(f"sessionid: {checksessionid}")
+        self.__printDefaultMenu()
+
+    def __printAccountDelete(self, response):
+        print("회원탈퇴 성공")
         self.__sessionId = -1
         Session().set_session_id(self.__sessionId)
         checksessionid = self.__sessionId
