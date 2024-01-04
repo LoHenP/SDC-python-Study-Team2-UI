@@ -25,22 +25,22 @@ class ProductFormRepositoryImpl(ProductFormRepository):
         return
 
     def createProductInfoForm(self):
-        productInfoNum = KeyboardInput.getKeyboardIntegerInput("상품 번호를 입력하세요.")
+        productInfoNum = KeyboardInput.getKeyboardIntegerInput('\033[95m'+"상품 번호를 입력하세요."+'\033[0m')
         return productInfoNum
 
     def createProductAddForm(self):
-        productName = KeyboardInput.getKeyboardInput("상품 이름을 입력하세요.")
-        productPrice = KeyboardInput.getKeyboardIntegerInput("상품 가격을 입력하세요.")
-        productInfo = KeyboardInput.getKeyboardInput("상품 정보를 입력하세요.")
+        productName = KeyboardInput.getKeyboardInput('\033[95m'+"상품 이름을 입력하세요."+'\033[0m')
+        productPrice = KeyboardInput.getKeyboardIntegerInput('\033[95m'+"상품 가격을 입력하세요."+'\033[0m')
+        productInfo = KeyboardInput.getKeyboardInput('\033[95m'+"상품 정보를 입력하세요."+'\033[0m')
         return productName, productPrice, productInfo
 
     def createProductDeleteForm(self):
-        productNum = KeyboardInput.getKeyboardIntegerInput("삭제할 상품 번호를 입력하세요.")
+        productNum = KeyboardInput.getKeyboardIntegerInput('\033[95m'+"삭제할 상품 번호를 입력하세요."+'\033[0m')
         return productNum
 
     def createProductEditForm(self):
-        productEditNum = KeyboardInput.getKeyboardIntegerInput("수정할 상품의 번호를 입력하세요.")
-        productEditName = KeyboardInput.getKeyboardInput("수정할 상품의 이름을 입력하세요.")
-        productEditPrice = KeyboardInput.getKeyboardIntegerInput("수정할 상품의 가격을 입력하세요.")
-        productEditInfo = KeyboardInput.getKeyboardInput("수정할 상품의 내용을 입력하세요.")
+        productEditNum = KeyboardInput.getKeyboardIntegerInput('\033[95m'+"수정할 상품의 번호를 입력하세요."+'\033[0m')
+        productEditName = KeyboardInput.getKeyboardInput('\033[95m'+"수정할 상품의 이름을 입력하세요."+'\033[0m')
+        productEditPrice = KeyboardInput.getKeyboardIntegerInput('\033[95m'+"수정할 상품의 가격을 입력하세요."+'\033[0m')
+        productEditInfo = KeyboardInput.getKeyboardInput('\033[95m'+"수정할 상품의 내용을 입력하세요."+'\033[0m')
         return productEditNum, productEditName, productEditPrice, productEditInfo

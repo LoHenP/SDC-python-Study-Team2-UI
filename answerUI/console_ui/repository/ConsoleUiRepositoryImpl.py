@@ -75,7 +75,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
                     CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_REGISTER:
                 restrictChoice = self.__nothingLogout
                 while (True):
-                    userChoice = KeyboardInput.getKeyboardIntegerInput("원하는 선택지를 입력하세요.")
+                    userChoice = KeyboardInput.getKeyboardIntegerInput('\033[95m'+"원하는 선택지를 입력하세요.:"+'\033[0m')
                     if restrictChoice[0] <= userChoice <= restrictChoice[1]:
                         return userChoice
                     print("다시 입력 해주세요.")
@@ -88,7 +88,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_INFO:
                 restrictChoice = self.__productInfoLogout
             while(True):
-                userChoice = KeyboardInput.getKeyboardIntegerInput("원하는 선택지를 입력하세요.")
+                userChoice = KeyboardInput.getKeyboardIntegerInput('\033[95m'+"원하는 선택지를 입력하세요.:"+'\033[0m')
                 if restrictChoice[1] <= userChoice <= restrictChoice[2]:
                     print("로그인을 해야 이용 가능합니다.")
                 if restrictChoice[0] <= userChoice < restrictChoice[1] or \
@@ -110,7 +110,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             restrictChoice = self.__productInfoNum
 
         while(True):
-            userChoice = KeyboardInput.getKeyboardIntegerInput("원하는 선택지를 입력하세요.")
+            userChoice = KeyboardInput.getKeyboardIntegerInput('\033[95m'+"원하는 선택지를 입력하세요.:"+'\033[0m')
             if restrictChoice[0] <= userChoice <= restrictChoice[1]:
                 return userChoice
             print("다시 입력 해주세요.")
@@ -235,14 +235,14 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     def __printDefaultMenu(self):
         #세션 로그인 확인 필요
         if self.__sessionId == -1:
-            print("메뉴")
+            print('\033[30m \033[103m'+"[][] 메뉴 [][]"+'\033[0m')
             print("1. 로그인")
             print("2. 회원가입")
             print("3. 상품 목록")
             print("0. 종료")
             return
 
-        print("메뉴")
+        print('\033[30m \033[103m'+"[][] 메뉴 [][]"+'\033[0m')
         print("1. 로그아웃")
         print("2. 회원 탈퇴")
         print("3. 상품 목록")
@@ -297,7 +297,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("0. 종료")
 
     def __printProductList(self, response):
-        print("상품목록")
+        print('\033[31m \033[107m'+"[][] 상품 목록 [][]"+'\033[0m')
 
         for i in response:
             print(f"id: {i['id']}, name: {i['name']}, price: {i['price']}")
@@ -305,7 +305,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         self.__printProductMenu()
 
     def __printProductInfo(self, response):
-        print("상품 조회")
+        print('\033[31m \033[107m'+"[][] 상품 조회 [][]"+'\033[0m')
         print("------------------------")
         print(f"name : {response['name']}")
         print(f"price : {response['price']}")
