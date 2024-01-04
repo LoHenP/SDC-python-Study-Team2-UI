@@ -20,7 +20,9 @@ class OrderFormRepositoryImpl(OrderFormRepository):
         return cls.__instance
 
     def createOrderPurchaseForm(self):
-        return CustomProtocol.ORDER_PURCHASE.value
+        print("상품을 구매합니다.")
+        return
 
     def createOrderListForm(self):
-        return CustomProtocol.ORDER_LIST.value
+        print("구매 내역을 출력합니다.")
+        return
