@@ -139,7 +139,7 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
             raise ValueError("Invalid request format")
 
         productRequestData = {
-            'id': arguments[0].decode().strip(),
+            'id': arguments[0],
             'name': arguments[1].decode().strip(),
             'price': arguments[2],
             'info': arguments[3].decode().strip()
