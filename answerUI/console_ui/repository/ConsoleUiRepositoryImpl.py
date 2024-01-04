@@ -16,10 +16,10 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     # restrictUserInput
     __nothingLogout = [0, 3]
     __nothingNum = [0, 4]
-    __productMenuNum = [0, 6]
-    __productMenuLogout = [0, 2, 4, 6]
-    __productInfoNum = [0, 6]
-    __productInfoLogout = [0, 2, 4, 6]
+    __productMenuNum = [0, 7]
+    __productMenuLogout = [0, 2, 5, 7]
+    __productInfoNum = [0, 7]
+    __productInfoLogout = [0, 2, 5, 7]
     __orderList = [0, 3]
 
 
@@ -158,8 +158,10 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
                 if userChoice == 4:
                     return CustomProtocol.PRODUCT_DELETE.value
                 if userChoice == 5:
-                    return CustomProtocol.ACCOUNT_LOGIN.value
+                    return CustomProtocol.ORDER_LIST.value
                 if userChoice == 6:
+                    return CustomProtocol.ACCOUNT_LOGIN.value
+                if userChoice == 7:
                     return CustomProtocol.ACCOUNT_REGISTER.value
                 if userChoice == 0:
                     return CustomProtocol.PROGRAM_CLOSE.value
@@ -173,8 +175,10 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
                 if userChoice == 4:
                     return CustomProtocol.PRODUCT_DELETE.value
                 if userChoice == 5:
-                    return CustomProtocol.ACCOUNT_LOGIN.value
+                    return CustomProtocol.ORDER_LIST.value
                 if userChoice == 6:
+                    return CustomProtocol.ACCOUNT_LOGIN.value
+                if userChoice == 7:
                     return CustomProtocol.ACCOUNT_REGISTER.value
                 if userChoice == 0:
                     return CustomProtocol.PROGRAM_CLOSE.value
@@ -206,8 +210,10 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             if userChoice == 4:
                 return CustomProtocol.PRODUCT_DELETE.value
             if userChoice == 5:
-                return CustomProtocol.ACCOUNT_LOGOUT.value
+                return CustomProtocol.ORDER_LIST.value
             if userChoice == 6:
+                return CustomProtocol.ACCOUNT_LOGOUT.value
+            if userChoice == 7:
                 return CustomProtocol.ACCOUNT_DELETE.value
             if userChoice == 0:
                 return CustomProtocol.PROGRAM_CLOSE.value
@@ -221,8 +227,10 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             if userChoice == 4:
                 return CustomProtocol.PRODUCT_DELETE.value
             if userChoice == 5:
-                return CustomProtocol.ACCOUNT_LOGOUT.value
+                return CustomProtocol.ORDER_LIST.value
             if userChoice == 6:
+                return CustomProtocol.ACCOUNT_LOGOUT.value
+            if userChoice == 7:
                 return CustomProtocol.ACCOUNT_DELETE.value
             if userChoice == 0:
                 return CustomProtocol.PROGRAM_CLOSE.value
@@ -313,8 +321,9 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             print("2. 상품 추가")
             print("3. 상품 수정")
             print("4. 상품 삭제")
-            print("5. 로그인")
-            print("6. 회원가입")
+            print("5. 주문 내역")
+            print("6. 로그인")
+            print("7. 회원가입")
             print("0. 종료")
             return
 
@@ -322,8 +331,9 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("2. 상품 추가")
         print("3. 상품 수정")
         print("4. 상품 삭제")
-        print("5. 로그아웃")
-        print("6. 회원 탈퇴")
+        print("5. 주문 내역")
+        print("6. 로그아웃")
+        print("7. 회원 탈퇴")
         print("0. 종료")
 
     def __printProductList(self, response):
@@ -340,9 +350,9 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print('\033[31m \033[107m'+"[][] 상품 조회 [][]"+'\033[0m')
         self.__productId = response['id']
         print("------------------------")
-        print(f"name : {response['name']}")
-        print(f"price : {response['price']}")
-        print(f"info : {response['info']}")
+        print(f"name : {response['__productName']}")
+        print(f"price : {response['__productPrice']}")
+        print(f"info : {response['__productInfo']}")
         print("------------------------")
 
         #세션 로그인 확인 필요
@@ -351,8 +361,9 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             print("2. 상품 주문")
             print("3. 상품 수정")
             print("4. 상품 삭제")
-            print("5. 로그인")
-            print("6. 회원가입")
+            print("5. 주문 내역")
+            print("6. 로그인")
+            print("7. 회원가입")
             print("0. 종료")
             return
 
@@ -361,8 +372,9 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("2. 상품 주문")
         print("3. 상품 수정")
         print("4. 상품 삭제")
-        print("5. 로그아웃")
-        print("6. 회원탈퇴")
+        print("5. 주문 내역")
+        print("6. 로그아웃")
+        print("7. 회원탈퇴")
         print("0. 종료")
 
 
@@ -396,7 +408,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("주문 내역")
 
         for i in response:
-            print(f"id: {i['id']}, name: {i['name']}, price: {i['price']}")
+            print(f"name: {i['__productName']}, price: {i['__productPrice']}")
 
         print("주문 내역 메뉴")
         print("1. 주문 취소")

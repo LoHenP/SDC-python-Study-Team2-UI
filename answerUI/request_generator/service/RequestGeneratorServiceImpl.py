@@ -168,7 +168,6 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
 
         orderRequestData = {
             '__accountSessionId': sessionId[0],
-            '__productId': arguments
         }
 
         return orderRequestData
