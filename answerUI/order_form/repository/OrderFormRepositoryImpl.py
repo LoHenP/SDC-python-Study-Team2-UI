@@ -29,7 +29,5 @@ class OrderFormRepositoryImpl(OrderFormRepository):
         return
 
     def createOrderDeleteForm(self):
-        orderDeleteNum = KeyboardInput.getKeyboardIntegerInput("삭제할 상품의 번호를 입력하세요.")
-
-        print("선택한 상품의 주문을 취소합니다.")
-        return orderDeleteNum
+        print("주문을 취소합니다.")
+        return
