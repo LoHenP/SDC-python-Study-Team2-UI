@@ -20,6 +20,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     __productMenuLogout = [0, 2, 4, 6]
     __productInfoNum = [0, 6]
     __productInfoLogout = [0, 2, 4, 6]
+    __orderList = [0, 3]
 
 
     def __new__(cls):
@@ -114,6 +115,8 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             restrictChoice = self.__productMenuNum
         if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_INFO:
             restrictChoice = self.__productInfoNum
+        if CurrentRoutingState == ConsoleUiRoutingState.ORDER_LIST:
+            restrictChoice = self.__orderList
 
         while(True):
             userChoice = KeyboardInput.getKeyboardIntegerInput('\033[95m'+"원하는 선택지를 입력하세요.:"+'\033[0m')
@@ -221,6 +224,16 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
                 return CustomProtocol.ACCOUNT_DELETE.value
             if userChoice == 0:
                 return CustomProtocol.PROGRAM_CLOSE.value
+        if CurrentRoutingState == ConsoleUiRoutingState.ORDER_LIST:
+            if userChoice == 1:
+                return CustomProtocol.ORDER_DELETE.value
+            if userChoice == 2:
+                return CustomProtocol.PRODUCT_LIST.value
+            if userChoice == 3:
+                return CustomProtocol.ACCOUNT_LOGOUT.value
+            if userChoice == 0:
+                return CustomProtocol.PROGRAM_CLOSE.value
+
         return userChoice
 
 
@@ -366,4 +379,16 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
         self.__printDefaultMenu()
 
+    def __printOrderList(self, response):
+        print("주문 내역")
 
+        for i in response:
+            print(f"id: {i['id']}, name: {i['name']}, price: {i['price']}")
+
+        print("주문 내역 메뉴")
+        print("1. 주문 취소")
+        print("2. 상품 목록")
+        print("3. 로그아웃")
+        print("0. 종료")
+
+        
