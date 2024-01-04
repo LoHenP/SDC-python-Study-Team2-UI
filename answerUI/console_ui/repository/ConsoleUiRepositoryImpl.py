@@ -301,8 +301,8 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
 
     def __printAccountLogin(self, response):
-        print(response['message'])
-        sessionid = response['sessionAccountId']
+        print(response['__message'])
+        sessionid = response['__sessionAccountId']
         self.__sessionId = sessionid
         Session().set_session_id(self.__sessionId)
 
