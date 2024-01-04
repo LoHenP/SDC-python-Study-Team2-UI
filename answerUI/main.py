@@ -42,6 +42,11 @@ def registerProtocol():
     orderFormRepository = OrderFormRepositoryImpl.get_instance()
 
     customProtocolService.registerCustomProtocol(
+        CustomProtocol.ORDER_DELETE.value,
+        orderFormRepository.createOrderDeleteForm,
+    )
+
+    customProtocolService.registerCustomProtocol(
         CustomProtocol.ORDER_PURCHASE.value,
         orderFormRepository.createOrderPurchaseForm,
     )

@@ -23,6 +23,7 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
             cls.__requestFormGenerationTable[CustomProtocol.PRODUCT_EDIT.value] = cls.__instance.generateProductEditRequest
             cls.__requestFormGenerationTable[CustomProtocol.ORDER_PURCHASE.value] = cls.__instance.generateOrderPurchaseRequest
             cls.__requestFormGenerationTable[CustomProtocol.ORDER_LIST.value] = cls.__instance.generateOrderListRequest
+            cls.__requestFormGenerationTable[CustomProtocol.ORDER_DELETE.value] = cls.__instance.generateOrderDeleteRequest
 
 
         return cls.__instance
@@ -80,7 +81,7 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         print("RequestGeneratorService: Account Logout form")
 
         accountRequestData = {
-            '__accountSessionId': sessionId
+            '__accountSessionId': sessionId[0]
         }
 
         return accountRequestData
@@ -89,7 +90,7 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         print("RequestGeneratorService: account delete form")
 
         accountRequestData = {
-            '__accountSessionId': sessionId
+            '__accountSessionId': sessionId[0]
         }
 
         return accountRequestData
@@ -146,8 +147,8 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         print("RequestGeneratorService: order purchase form")
 
         orderRequestData = {
-            '__productId': arguments,
-            '__accountSessionId': sessionId
+            '__productId': sessionId[1],
+            '__accountSessionId': sessionId[0]
         }
 
         return orderRequestData
@@ -156,7 +157,18 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         print("RequestGeneratorService: order list form")
 
         orderRequestData = {
-            '__accountSessionId': sessionId
+            '__accountSessionId': sessionId[0]
+        }
+
+        return orderRequestData
+
+
+    def generateOrderDeleteRequest(self, arguments, sessionId):
+        print("RequestGeneratorService: order delete form")
+
+        orderRequestData = {
+            '__accountSessionId': sessionId[0],
+            '__productId': arguments
         }
 
         return orderRequestData

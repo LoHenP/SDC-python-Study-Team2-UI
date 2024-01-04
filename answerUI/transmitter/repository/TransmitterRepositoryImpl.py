@@ -35,7 +35,7 @@ class TransmitterRepositoryImpl(TransmitterRepository):
                 try:
                     transmitData = transmitQueue.get(block=True)
                     sendProtocol = transmitData['protocolNum']
-                    sessionId = transmitData['session']
+                    sessionState = transmitData['sessionState']
                     print(f"typeof(sendProtocol) = {type(sendProtocol)}")
                     print(f"sendProtocol = {sendProtocol}")
                     request = customProtocolRepository.execute(sendProtocol)
@@ -51,7 +51,7 @@ class TransmitterRepositoryImpl(TransmitterRepository):
 
                         requestGenerator = requestGeneratorService.findRequestGenerator(sendProtocol)
                         print(f"Request Generator: {requestGenerator}")
-                        sendingRequest = requestGenerator(request, sessionId)
+                        sendingRequest = requestGenerator(request, sessionState)
                         print(f"finish to generate request: {sendingRequest}")
 
                         combinedRequestData = {

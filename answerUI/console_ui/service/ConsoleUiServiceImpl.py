@@ -34,8 +34,7 @@ class ConsoleUiServiceImpl(ConsoleUiService):
         userChoice = self.__repository.userInputConverter(userChoice)
         self.__repository.saveCurrentRoutingState(userChoice)
 
-        transmitData = {'protocolNum': userChoice, 'session': self.__repository.aquireSession()}
+        transmitData = {'protocolNum': userChoice,
+                        'sessionState': [self.__repository.aquireSessionId(), self.__repository.aquireProductId()]}
         # 필요하다면 여기 중간에 몇 가지 작업들이 더 처리 될 수 있습니다.
         transmitQueue.put(transmitData)
-
-
