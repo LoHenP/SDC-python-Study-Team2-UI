@@ -236,6 +236,8 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             if userChoice == 0:
                 return CustomProtocol.PROGRAM_CLOSE.value
 
+
+        print(f"userChoice: {userChoice}")
         return userChoice
 
 
@@ -249,14 +251,15 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
     def printMenuResponse(self, response):
         currentRoutingState = self.__consoleUiState.getCurrentRoutingState()
+        print(f"response: {response}")
         print(f"Current Routing State: {currentRoutingState}")
-        if self.__isResponseNotFalse(response):
-            menu = self.__uiMenuTable[currentRoutingState.value]
-            menu(response)
-        else:
+        if self.__isResponseNotFalse(response) == False:
             currentRoutingState = self.__consoleUiState.revertToDefaultState()
             menu = self.__uiMenuTable[currentRoutingState.value]
             menu()
+        else:
+            menu = self.__uiMenuTable[currentRoutingState.value]
+            menu(response)
 
 
     def __printDefaultMenu(self):
@@ -327,7 +330,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print('\033[31m \033[107m'+"[][] 상품 목록 [][]"+'\033[0m')
         try:
             for i in response:
-                print(f"id: {i['id']}, name: {i['name']}, price: {i['price']}")
+                print(f"id: {i['__productId']}, name: {i['__productName']}, price: {i['__productPrice']}")
             self.__printProductMenu()
         except Exception as e:
             self.__printDefaultMenu()
@@ -411,7 +414,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("check response is bool")
         result = None
         try:
-            result = response['success']
+            result = response['__success']
         except:
             result = True
         finally:
