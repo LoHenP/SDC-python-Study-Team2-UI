@@ -10,9 +10,11 @@ from product.response.ProductReadResponse import ProductReadResponse
 
 class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     __instance = None
+    __sessionId = -1
     __uiMenuTable = {}
     # restrictUserInput
-    __nothingNum = [0, 3]
+    __nothingLogout = [0, 3]
+    __nothingNum = [0, 4]
     __productMenuNum = [0, 6]
     __productMenuLogout = [0, 2, 4, 6]
     __productInfoNum = [0, 5]
@@ -22,6 +24,9 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     def __new__(cls):
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
+
+            cls.__instance.__setSessionId()
+
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.NOTHING.value] = cls.__instance.__printDefaultMenu
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ACCOUNT_REGISTER.value] = cls.__instance.__printAccountRegister
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ACCOUNT_LOGIN.value] = cls.__instance.__printAccountLogin
@@ -40,7 +45,6 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("ConsoleUiRepository 초기화 동작")
 
         self.__consoleUiState = ConsoleUiState()
-        self.__session = Session()
 
     @classmethod
     def getInstance(cls):
@@ -58,16 +62,18 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     def saveRequestFormToTransmitQueue(self):
         pass
 
+    def aquireSession(self):
+        return self.__sessionId
 
     def restrictUserInput(self):
         CurrentRoutingState = self.acquireCurrentRoutingState()
         restrictChoice = [0, 10] # 임시
-        if self.__session.get_session_id() == -1:
+        if self.__sessionId == -1:
             if CurrentRoutingState == ConsoleUiRoutingState.NOTHING or \
                     CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGIN or \
                     CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGOUT or \
                     CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_REGISTER:
-                restrictChoice = self.__nothingNum
+                restrictChoice = self.__nothingLogout
                 while (True):
                     userChoice = KeyboardInput.getKeyboardIntegerInput("원하는 선택지를 입력하세요.")
                     if restrictChoice[0] <= userChoice <= restrictChoice[1]:
@@ -76,7 +82,8 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
             if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_LIST or \
                     CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_ADD or \
-                    CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_DELETE:
+                    CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_DELETE or \
+                    CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_EDIT:
                 restrictChoice = self.__productMenuLogout
             if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_INFO:
                 restrictChoice = self.__productInfoLogout
@@ -96,7 +103,8 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             restrictChoice = self.__nothingNum
         if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_LIST or \
             CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_ADD or \
-            CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_DELETE:
+            CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_DELETE or \
+            CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_EDIT:
             restrictChoice = self.__productMenuNum
         if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_INFO:
             restrictChoice = self.__productInfoNum
@@ -113,7 +121,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     def userInputConverter(self, userChoice):
         CurrentRoutingState = self.acquireCurrentRoutingState()
         print(f"Current Routing State: {CurrentRoutingState}")
-        if self.__session.get_session_id() == -1:
+        if self.__sessionId == -1:
             if CurrentRoutingState == ConsoleUiRoutingState.NOTHING or \
                 CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGIN or \
                 CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGOUT or \
@@ -128,7 +136,8 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
                     return CustomProtocol.PROGRAM_CLOSE.value
             if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_LIST or \
                 CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_ADD or \
-                CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_DELETE:
+                CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_DELETE or \
+                    CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_EDIT:
                 if userChoice == 1:
                     return CustomProtocol.PRODUCT_INFO.value
                 if userChoice == 2:
@@ -167,11 +176,14 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
                 return CustomProtocol.ACCOUNT_DELETE.value
             if userChoice == 3:
                 return CustomProtocol.PRODUCT_LIST.value
+            if userChoice == 4:
+                return CustomProtocol.ORDER_LIST.value
             if userChoice == 0:
                 return CustomProtocol.PROGRAM_CLOSE.value
         if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_LIST or \
                 CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_ADD or \
-                CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_DELETE:
+                CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_DELETE or \
+                CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_EDIT:
             if userChoice == 1:
                 return CustomProtocol.PRODUCT_INFO.value
             if userChoice == 2:
@@ -218,7 +230,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
     def __printDefaultMenu(self):
         #세션 로그인 확인 필요
-        if self.__session.get_session_id() == -1:
+        if self.__sessionId == -1:
             print("메뉴")
             print("1. 로그인")
             print("2. 회원가입")
@@ -230,14 +242,20 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("1. 로그아웃")
         print("2. 회원 탈퇴")
         print("3. 상품 목록")
+        print("4. 구매 내역")
         print("0. 종료")
+
+    def __setSessionId(self):
+        self.__session = Session()
+
 
     def __printAccountLogin(self, response):
         print(response['message'])
         sessionid = response['sessionAccountId']
-        self.__session.set_session_id(sessionid)
+        self.__sessionId = sessionid
+        Session().set_session_id(self.__sessionId)
 
-        checksessionid = self.__session.get_session_id()
+        checksessionid = self.__sessionId
         print(f"sessionid: {checksessionid}")
 
         self.__printDefaultMenu()
@@ -248,14 +266,15 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
     def __printAccountLogout(self, response):
         print("로그아웃 성공")
-        self.__session.set_session_id(-1)
-        checksessionid = self.__session.get_session_id()
+        self.__sessionId = -1
+        Session().set_session_id(self.__sessionId)
+        checksessionid = self.__sessionId
         print(f"sessionid: {checksessionid}")
         self.__printDefaultMenu()
 
     def __printProductMenu(self):
         # 세션 확인해서 로그인중이면 로그아웃만 뜨게해야함
-        if self.__session.get_session_id() == -1:
+        if self.__sessionId == -1:
             print("1. 상품 조회")
             print("2. 상품 추가")
             print("3. 상품 수정")
@@ -290,7 +309,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("------------------------")
 
         #세션 로그인 확인 필요
-        if self.__session.get_session_id() == -1:
+        if self.__sessionId == -1:
             print("1. 상품 목록")
             print("2. 상품 수정")
             print("3. 상품 삭제")
