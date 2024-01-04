@@ -17,8 +17,8 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     __nothingNum = [0, 4]
     __productMenuNum = [0, 6]
     __productMenuLogout = [0, 2, 4, 6]
-    __productInfoNum = [0, 5]
-    __productInfoLogout = [0, 2, 3, 5]
+    __productInfoNum = [0, 6]
+    __productInfoLogout = [0, 2, 4, 6]
 
 
     def __new__(cls):
@@ -156,12 +156,14 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
                 if userChoice == 1:
                     return CustomProtocol.PRODUCT_LIST.value
                 if userChoice == 2:
-                    return CustomProtocol.PRODUCT_EDIT.value
+                    return CustomProtocol.ORDER_PURCHASE.value
                 if userChoice == 3:
-                    return CustomProtocol.PRODUCT_DELETE.value
+                    return CustomProtocol.PRODUCT_EDIT.value
                 if userChoice == 4:
-                    return CustomProtocol.ACCOUNT_LOGIN.value
+                    return CustomProtocol.PRODUCT_DELETE.value
                 if userChoice == 5:
+                    return CustomProtocol.ACCOUNT_LOGIN.value
+                if userChoice == 6:
                     return CustomProtocol.ACCOUNT_REGISTER.value
                 if userChoice == 0:
                     return CustomProtocol.PROGRAM_CLOSE.value
@@ -202,12 +204,14 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             if userChoice == 1:
                 return CustomProtocol.PRODUCT_LIST.value
             if userChoice == 2:
-                return CustomProtocol.PRODUCT_EDIT.value
+                return CustomProtocol.ORDER_PURCHASE.value
             if userChoice == 3:
-                return CustomProtocol.PRODUCT_DELETE.value
+                return CustomProtocol.PRODUCT_EDIT.value
             if userChoice == 4:
-                return CustomProtocol.ACCOUNT_LOGOUT.value
+                return CustomProtocol.PRODUCT_DELETE.value
             if userChoice == 5:
+                return CustomProtocol.ACCOUNT_LOGOUT.value
+            if userChoice == 6:
                 return CustomProtocol.ACCOUNT_DELETE.value
             if userChoice == 0:
                 return CustomProtocol.PROGRAM_CLOSE.value
@@ -242,7 +246,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("1. 로그아웃")
         print("2. 회원 탈퇴")
         print("3. 상품 목록")
-        print("4. 구매 내역")
+        print("4. 주문 내역")
         print("0. 종료")
 
     def __setSessionId(self):
@@ -311,19 +315,21 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         #세션 로그인 확인 필요
         if self.__sessionId == -1:
             print("1. 상품 목록")
-            print("2. 상품 수정")
-            print("3. 상품 삭제")
-            print("4. 로그인")
-            print("5. 회원가입")
+            print("2. 상품 주문")
+            print("3. 상품 수정")
+            print("4. 상품 삭제")
+            print("5. 로그인")
+            print("6. 회원가입")
             print("0. 종료")
             return
 
 
         print("1. 상품 목록")
-        print("2. 상품 수정")
-        print("3. 상품 삭제")
-        print("4. 로그아웃")
-        print("5. 회원탈퇴")
+        print("2. 상품 주문")
+        print("3. 상품 수정")
+        print("4. 상품 삭제")
+        print("5. 로그아웃")
+        print("6. 회원탈퇴")
         print("0. 종료")
 
 
@@ -346,3 +352,11 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("상품 수정 실패")
 
         self.__printProductMenu()
+
+    def __printOrderPurchase(self, response):
+        print("주문 성공")
+        print("주문 실패")
+
+        self.__printDefaultMenu()
+
+
