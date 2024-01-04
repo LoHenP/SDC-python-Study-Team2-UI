@@ -1,6 +1,5 @@
 import ast
 
-from console_ui.entity.Session import Session
 from custom_protocol.entity.CustomProtocol import CustomProtocol
 from request_generator.service.RequestGeneratorService import RequestGeneratorService
 
@@ -47,7 +46,7 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         else:
             print(f"이 프로토콜 번호({protocolNumber}) 를 처리 할 수 있는 함수가 없습니다.")
 
-    def generateAccountRegisterRequest(self, arguments):
+    def generateAccountRegisterRequest(self, arguments, sessionId):
         print("RequestGeneratorService: register form")
         print(f"arguments의 타입: {type(arguments)}")
         print(f"지금부터 request를 생성합니다: {arguments}")
@@ -64,7 +63,7 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
 
         return accountRequestData
 
-    def generateAccountLoginRequest(self, arguments):
+    def generateAccountLoginRequest(self, arguments, sessionId):
         print("RequestGeneratorService: login form")
 
         if not isinstance(arguments, tuple) or len(arguments) != 2:
@@ -77,90 +76,87 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
 
         return accountRequestData
 
-    def generateAccountLogoutRequest(self, arguments):
+    def generateAccountLogoutRequest(self, arguments, sessionId):
         print("RequestGeneratorService: Account Logout form")
 
         accountRequestData = {
-            '__data': arguments
+            '__accountSessionId': sessionId
         }
 
         return accountRequestData
 
-    def generateAccountDeleteRequest(self, arguments):
+    def generateAccountDeleteRequest(self, arguments, sessionId):
         print("RequestGeneratorService: account delete form")
 
-        if not isinstance(arguments, tuple) or len(arguments) != 2:
-            raise ValueError("Invalid request format")
-
         accountRequestData = {
-            '__accountId': arguments[0].decode().strip(),
-            '__password': arguments[1].decode().strip(),
+            '__accountSessionId': sessionId
         }
 
         return accountRequestData
 
-    def generateProductInfoRequest(self, arguments):
+    def generateProductInfoRequest(self, arguments, sessionId):
         print("RequestGeneratorService: product Info form")
 
         productRequestData = {
-            'id': arguments
+            '__productId': arguments
         }
 
         return productRequestData
 
 
-    def generateProductAddRequest(self, arguments):
+    def generateProductAddRequest(self, arguments, sessionId):
         print("RequestGeneratorService: product add")
 
         if not isinstance(arguments, tuple) or len(arguments) != 3:
             raise ValueError("Invalid request format")
 
         productRequestData = {
-            'name': arguments[0].decode().strip(),
-            'price': arguments[1],
-            'info': arguments[2].decode().strip()
+            '__productName': arguments[0].decode().strip(),
+            '__productPrice': arguments[1],
+            '__productInfo': arguments[2].decode().strip()
         }
 
         return productRequestData
 
-    def generateProductDeleteRequest(self, arguments):
+    def generateProductDeleteRequest(self, arguments, sessionId):
         print("RequestGeneratorService: product delete form")
 
         productRequestData = {
-            'id': arguments
+            '__productId': arguments
         }
 
         return productRequestData
 
-    def generateProductEditRequest(self, arguments):
+    def generateProductEditRequest(self, arguments, sessionId):
         print("RequestGeneratorService: product edit")
 
         if not isinstance(arguments, tuple) or len(arguments) != 4:
             raise ValueError("Invalid request format")
 
         productRequestData = {
-            'id': arguments[0].decode().strip(),
-            'name': arguments[1].decode().strip(),
-            'price': arguments[2],
-            'info': arguments[3].decode().strip()
+            '__productId': arguments[0],
+            '__productName': arguments[1].decode().strip(),
+            '__productPrice': arguments[2],
+            '__productInfo': arguments[3].decode().strip()
         }
 
         return productRequestData
 
-    def generateOrderPurchaseRequest(self, arguments):
+    def generateOrderPurchaseRequest(self, arguments, sessionId):
         print("RequestGeneratorService: order purchase form")
 
         orderRequestData = {
-            '__orderId': arguments
+            '__productId': arguments,
+            '__accountSessionId': sessionId
         }
 
         return orderRequestData
 
-    def generateOrderListRequest(self, arguments):
+    def generateOrderListRequest(self, arguments, sessionId):
         print("RequestGeneratorService: order list form")
 
         orderRequestData = {
-            '__orderList': arguments
+            '__accountSessionId': sessionId
         }
 
         return orderRequestData

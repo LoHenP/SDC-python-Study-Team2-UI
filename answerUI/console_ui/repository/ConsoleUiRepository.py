@@ -16,6 +16,10 @@ class ConsoleUiRepository(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def aquireSession(self):
+        pass
+
+    @abc.abstractmethod
     def restrictUserInput(self):
         pass
 
