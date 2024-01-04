@@ -41,6 +41,8 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_EDIT.value] = cls.__instance.__printProductEdit
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ORDER_PURCHASE.value] = cls.__instance.__printOrderPurchase
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ORDER_LIST.value] = cls.__instance.__printOrderList
+            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ORDER_DELETE.value] = cls.__instance.__printOrderDelete
+
 
 
 
