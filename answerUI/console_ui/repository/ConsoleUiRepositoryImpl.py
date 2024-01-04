@@ -11,6 +11,7 @@ from product.response.ProductReadResponse import ProductReadResponse
 class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     __instance = None
     __sessionId = -1
+    __productId = None
     __uiMenuTable = {}
     # restrictUserInput
     __nothingLogout = [0, 3]
@@ -36,6 +37,8 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_ADD.value] = cls.__instance.__printProductAdd
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_DELETE.value] = cls.__instance.__printProductDelete
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PRODUCT_EDIT.value] = cls.__instance.__printProductEdit
+            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ORDER_PURCHASE.value] = cls.__instance.__printOrderPurchase
+            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ORDER_LIST.value] = cls.__instance.__printProductEdit
 
 
 
@@ -62,8 +65,11 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     def saveRequestFormToTransmitQueue(self):
         pass
 
-    def aquireSession(self):
+    def aquireSessionId(self):
         return self.__sessionId
+
+    def aquireProductId(self):
+        return self.__productId
 
     def restrictUserInput(self):
         CurrentRoutingState = self.acquireCurrentRoutingState()
@@ -306,6 +312,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
     def __printProductInfo(self, response):
         print('\033[31m \033[107m'+"[][] 상품 조회 [][]"+'\033[0m')
+        self.__productId = response['id']
         print("------------------------")
         print(f"name : {response['name']}")
         print(f"price : {response['price']}")

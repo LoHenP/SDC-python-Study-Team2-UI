@@ -80,7 +80,7 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         print("RequestGeneratorService: Account Logout form")
 
         accountRequestData = {
-            '__accountSessionId': sessionId
+            '__accountSessionId': sessionId[0]
         }
 
         return accountRequestData
@@ -89,7 +89,7 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         print("RequestGeneratorService: account delete form")
 
         accountRequestData = {
-            '__accountSessionId': sessionId
+            '__accountSessionId': sessionId[0]
         }
 
         return accountRequestData
@@ -146,8 +146,8 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         print("RequestGeneratorService: order purchase form")
 
         orderRequestData = {
-            '__productId': arguments,
-            '__accountSessionId': sessionId
+            '__productId': sessionId[1],
+            '__accountSessionId': sessionId[0]
         }
 
         return orderRequestData
@@ -156,7 +156,7 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         print("RequestGeneratorService: order list form")
 
         orderRequestData = {
-            '__accountSessionId': sessionId
+            '__accountSessionId': sessionId[0]
         }
 
         return orderRequestData
