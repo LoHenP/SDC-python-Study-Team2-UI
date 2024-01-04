@@ -242,16 +242,22 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
     def printMenu(self):
         currentRoutingState = self.__consoleUiState.getCurrentRoutingState()
-
+        print(f"Current Routing State: {currentRoutingState}")
         menu = self.__uiMenuTable[currentRoutingState.value]
         menu()
 
 
     def printMenuResponse(self, response):
         currentRoutingState = self.__consoleUiState.getCurrentRoutingState()
+        print(f"Current Routing State: {currentRoutingState}")
+        if self.__isResponseNotFalse(response):
+            menu = self.__uiMenuTable[currentRoutingState.value]
+            menu(response)
+        else:
+            currentRoutingState = self.__consoleUiState.revertToDefaultState()
+            menu = self.__uiMenuTable[currentRoutingState.value]
+            menu()
 
-        menu = self.__uiMenuTable[currentRoutingState.value]
-        menu(response)
 
     def __printDefaultMenu(self):
         #세션 로그인 확인 필요
@@ -297,7 +303,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print(f"sessionid: {checksessionid}")
         self.__printDefaultMenu()
 
-    def __printProductMenu(self):
+    def __printProductMenu(self, response=None):
         # 세션 확인해서 로그인중이면 로그아웃만 뜨게해야함
         if self.__sessionId == -1:
             print("1. 상품 조회")
@@ -319,13 +325,15 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
     def __printProductList(self, response):
         print('\033[31m \033[107m'+"[][] 상품 목록 [][]"+'\033[0m')
+        try:
+            for i in response:
+                print(f"id: {i['id']}, name: {i['name']}, price: {i['price']}")
+            self.__printProductMenu()
+        except Exception as e:
+            self.__printDefaultMenu()
 
-        for i in response:
-            print(f"id: {i['id']}, name: {i['name']}, price: {i['price']}")
 
-        self.__printProductMenu()
-
-    def __printProductInfo(self, response):
+    def __printProductInfo(self, response=None):
         print('\033[31m \033[107m'+"[][] 상품 조회 [][]"+'\033[0m')
         self.__productId = response['id']
         print("------------------------")
@@ -372,9 +380,9 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     def __printProductEdit(self, response):
         print("상품 수정 성공")
         print("상품 수정 실패")
-
         self.__printProductMenu()
 
+        
     def __printOrderPurchase(self, response):
         print("주문 성공")
         print("주문 실패")
@@ -398,4 +406,15 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("주문 취소 실패")
 
         self.__printDefaultMenu()
+
+    def __isResponseNotFalse(self, response):
+        print("check response is bool")
+        result = None
+        try:
+            result = response['success']
+        except:
+            result = True
+        finally:
+            print(f"response is: {result}")
+            return result
 
