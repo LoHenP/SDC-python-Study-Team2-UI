@@ -14,3 +14,4 @@ class ConsoleUiRoutingState(Enum):
     PRODUCT_DELETE = 9
     ORDER_PURCHASE = 10
     ORDER_LIST = 11
+    ORDER_DELETE = 12

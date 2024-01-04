@@ -1,5 +1,4 @@
 from account_form.repository.AccountFormRepository import AccountFormRepository
-from console_ui.entity.Session import Session
 from custom_protocol.entity.CustomProtocol import CustomProtocol
 
 from utility.keyboard.KeyboardInput import KeyboardInput
@@ -15,7 +14,6 @@ class AccountFormRepositoryImpl(AccountFormRepository):
 
     def __init__(self):
         print("AccountFormRepositoryImpl 초기화 동작")
-        self.__session = Session()
 
     @classmethod
     def getInstance(cls):
@@ -24,33 +22,35 @@ class AccountFormRepositoryImpl(AccountFormRepository):
         return cls.__instance
 
     def createAccountRegisterForm(self):
-        userInputId = KeyboardInput.getKeyboardInput("아이디를 입력하세요:")
-        userInputPassword = KeyboardInput.getKeyboardInput("비밀번호를 입력하세요:")
+        userInputId = KeyboardInput.getKeyboardInput('\033[95m'+"아이디를 입력하세요: "+'\033[0m')
+        userInputPassword = KeyboardInput.getKeyboardInput('\033[95m'+"비밀번호를 입력하세요: "+'\033[0m')
         return userInputId, userInputPassword
 
 
     def AccountLoginForm(self):
-        userInputId = KeyboardInput.getKeyboardInput("아이디를 입력하세요:")
-        userInputPassword = KeyboardInput.getKeyboardInput("비밀번호를 입력하세요:")
+        userInputId = KeyboardInput.getKeyboardInput('\033[95m'+"아이디를 입력하세요: "+'\033[0m')
+        userInputPassword = KeyboardInput.getKeyboardInput('\033[95m'+"비밀번호를 입력하세요: "+'\033[0m')
         return userInputId, userInputPassword
 
     def AccountLogoutForm(self):
-        print("로그아웃합니다.")
-        sessionid = self.__session.get_session_id()
-        return sessionid
+        print('\033[31m \033[107m'+" 로그아웃합니다. "+'\033[0m')
+        return
 
     def AccountDeleteForm(self):
-        print('\033[31m'+"회원 탈퇴를 진행합니다."+'\033[0m')
-        userInputId = KeyboardInput.getKeyboardInput("아이디를 입력하세요:")
-        userInputPassword = KeyboardInput.getKeyboardInput("비밀번호를 입력하세요:")
-        return userInputId, userInputPassword
+        print('\033[31m \033[107m'+" 회원 탈퇴를 진행합니다. "+'\033[0m')
+        return
+        # userInputId = KeyboardInput.getKeyboardInput("아이디를 입력하세요:")
+        # userInputPassword = KeyboardInput.getKeyboardInput("비밀번호를 입력하세요:")
         # userInputTrans = KeyboardInput.getKeyboardInput('\033[31m'+"회원 탈퇴를 진행할까요? (y/n):"+'\033[0m')
-        # print(userInputId, userInputPassword, userInputTrans)
-        # if userInputTrans == "b'y\n" or userInputTrans == "b'Y\n":
+        # if userInputTrans is not None:
+        #     # b'입력값\n 을 입력값 으로 변환 (예를들어 b'y\n 을 y 으로 변환)
+        #     newUserInputTrans = userInputTrans.decode().strip()
+        #     print(userInputId, userInputPassword, newUserInputTrans)
+        # if newUserInputTrans == "y" or newUserInputTrans == "Y":
         #     return userInputId, userInputPassword
         # else:
         #     # 회원 탈퇴를 취소할 경우 되돌아가는 경로가 필요함
-        #     return None, None
+        #     return
 
     def createProgramCloseForm(self):
         return

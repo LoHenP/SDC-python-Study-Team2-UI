@@ -1,6 +1,5 @@
 from console_ui.service.ConsoleUiService import ConsoleUiService
 from utility.keyboard.KeyboardInput import KeyboardInput
-from console_ui.entity.Session import Session
 
 
 class ConsoleUiServiceImpl(ConsoleUiService):
@@ -35,7 +34,7 @@ class ConsoleUiServiceImpl(ConsoleUiService):
         userChoice = self.__repository.userInputConverter(userChoice)
         self.__repository.saveCurrentRoutingState(userChoice)
 
+        transmitData = {'protocolNum': userChoice,
+                        'sessionState': [self.__repository.aquireSessionId(), self.__repository.aquireProductId()]}
         # 필요하다면 여기 중간에 몇 가지 작업들이 더 처리 될 수 있습니다.
-        transmitQueue.put(userChoice)
-
-
+        transmitQueue.put(transmitData)

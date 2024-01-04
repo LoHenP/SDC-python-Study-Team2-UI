@@ -1,5 +1,6 @@
 from custom_protocol.entity.CustomProtocol import CustomProtocol
 from order_form.repository.OrderFormRepository import OrderFormRepository
+from utility.keyboard.KeyboardInput import KeyboardInput
 
 
 class OrderFormRepositoryImpl(OrderFormRepository):
@@ -20,7 +21,15 @@ class OrderFormRepositoryImpl(OrderFormRepository):
         return cls.__instance
 
     def createOrderPurchaseForm(self):
-        return CustomProtocol.ORDER_PURCHASE.value
+        print("상품을 구매합니다.")
+        return
 
     def createOrderListForm(self):
-        return CustomProtocol.ORDER_LIST.value
+        print("주문 내역을 출력합니다.")
+        return
+
+    def createOrderDeleteForm(self):
+        orderDeleteNum = KeyboardInput.getKeyboardIntegerInput("삭제할 상품의 번호를 입력하세요.")
+
+        print("선택한 상품의 주문을 취소합니다.")
+        return orderDeleteNum
