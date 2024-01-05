@@ -447,8 +447,6 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         if self.__sessionId != -1:
             print("로그아웃")
 
-        print(response['__message'])
-
 
 
     def __isResponseNotFalse(self, response):
