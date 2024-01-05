@@ -5,6 +5,7 @@ from console_ui.entity.ConsoleUiState import ConsoleUiState
 from console_ui.entity.Session import Session
 from console_ui.repository.ConsoleUiRepository import ConsoleUiRepository
 from custom_protocol.entity.CustomProtocol import CustomProtocol
+from task_manage.repository.TaskManageRepositoryImpl import TaskManageRepositoryImpl
 from utility.keyboard.KeyboardInput import KeyboardInput
 from product.response.ProductReadResponse import ProductReadResponse
 
@@ -447,7 +448,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             print("로그아웃")
 
         print(response['__message'])
-        sys.exit()
+
 
 
     def __isResponseNotFalse(self, response):
