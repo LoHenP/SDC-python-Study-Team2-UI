@@ -6,3 +6,6 @@ class TaskManageRepository(abc.ABC):
     def createTask(self, target, args):
         pass
 
+    @abc.abstractmethod
+    def endTask(self):
+        pass

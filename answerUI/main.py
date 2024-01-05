@@ -1,5 +1,6 @@
 import multiprocessing
 import socket
+import sys
 from time import sleep
 from decouple import config
 
@@ -16,6 +17,7 @@ from console_ui.repository.ConsoleUiRepositoryImpl import ConsoleUiRepositoryImp
 from console_ui.service.ConsoleUiServiceImpl import ConsoleUiServiceImpl
 from custom_protocol.entity.CustomProtocol import CustomProtocol
 from custom_protocol.service.CustomProtocolServiceImpl import CustomProtocolServiceImpl
+from task_manage.repository.TaskManageRepository import TaskManageRepository
 from task_manage.repository.TaskManageRepositoryImpl import TaskManageRepositoryImpl
 from task_manage.service.TaskManageServiceImpl import TaskManageServiceImpl
 
@@ -135,10 +137,16 @@ if __name__ == '__main__':
     taskManageService.createReceiveTask(lock, receiveQueue)
     taskManageService.createPrinterTask(transmitQueue, receiveQueue)
 
+
+
     while True:
         try:
             sleep(5.0)
 
         except socket.error:
             sleep(0.5)
+
+
+    TaskManageRepositoryImpl.getInstance().endTask()
+    sys.exit(0)
 

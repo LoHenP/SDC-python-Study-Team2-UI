@@ -34,5 +34,9 @@ class TaskManageRepositoryImpl(TaskManageRepository):
         newTask.start()
 
         taskEntity = TaskEntity(newTask.pid, target, args)
+
         self.__taskEntityList.append(taskEntity)
 
+    def endTask(self):
+        for task in self.__taskEntityList:
+            task.terminateTask()
