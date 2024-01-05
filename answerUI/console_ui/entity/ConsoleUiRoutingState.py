@@ -2,7 +2,8 @@ from enum import Enum
 
 
 class ConsoleUiRoutingState(Enum):
-    NOTHING = 0
+    NOTHING = 100
+    PROGRAM_CLOSE = 0
     ACCOUNT_LOGIN = 1
     ACCOUNT_REGISTER = 2
     ACCOUNT_LOGOUT = 3
