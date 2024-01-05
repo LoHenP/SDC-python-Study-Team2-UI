@@ -82,6 +82,8 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     def restrictUserInput(self):
         CurrentRoutingState = self.acquireCurrentRoutingState()
         restrictChoice = [0, 10] # 임시
+        if CurrentRoutingState == ConsoleUiRoutingState.PROGRAM_CLOSE:
+            return 0
         if self.__sessionId == -1:
             if CurrentRoutingState == ConsoleUiRoutingState.NOTHING or \
                     CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGIN or \
