@@ -41,7 +41,7 @@ class TransmitterRepositoryImpl(TransmitterRepository):
                     request = customProtocolRepository.execute(sendProtocol)
                     print(f"Request from repository: {request}")
 
-                    if sendProtocol == 5 or sendProtocol == 0:
+                    if sendProtocol == 5:
                         combinedRequestData = {
                             'protocol': sendProtocol,
                             'data': {},

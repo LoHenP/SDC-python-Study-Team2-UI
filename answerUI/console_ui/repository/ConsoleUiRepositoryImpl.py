@@ -1,3 +1,5 @@
+import sys
+
 from console_ui.entity.ConsoleUiRoutingState import ConsoleUiRoutingState
 from console_ui.entity.ConsoleUiState import ConsoleUiState
 from console_ui.entity.Session import Session
@@ -42,6 +44,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ORDER_PURCHASE.value] = cls.__instance.__printOrderPurchase
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ORDER_LIST.value] = cls.__instance.__printOrderList
             cls.__instance.__uiMenuTable[ConsoleUiRoutingState.ORDER_DELETE.value] = cls.__instance.__printOrderDelete
+            cls.__instance.__uiMenuTable[ConsoleUiRoutingState.PROGRAM_CLOSE.value] = cls.__instance.__printProgramClose
 
 
 
@@ -296,41 +299,6 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("4. 주문 내역")
         print("0. 종료")
 
-    def __setSessionId(self):
-        self.__session = Session()
-
-
-    def __printAccountLogin(self, response):
-        print(response['__message'])
-        sessionid = response['__sessionAccountId']
-        self.__sessionId = sessionid
-        Session().set_session_id(self.__sessionId)
-
-        checksessionid = self.__sessionId
-        print(f"sessionid: {checksessionid}")
-
-        self.__printDefaultMenu()
-
-    def __printAccountRegister(self, response):
-        print("회원가입 성공")
-        self.__printDefaultMenu()
-
-    def __printAccountLogout(self, response):
-        print("로그아웃 성공")
-        self.__sessionId = -1
-        Session().set_session_id(self.__sessionId)
-        checksessionid = self.__sessionId
-        print(f"sessionid: {checksessionid}")
-        self.__printDefaultMenu()
-
-    def __printAccountDelete(self, response):
-        print("회원탈퇴 성공")
-        self.__sessionId = -1
-        Session().set_session_id(self.__sessionId)
-        checksessionid = self.__sessionId
-        print(f"sessionid: {checksessionid}")
-        self.__printDefaultMenu()
-
     def __printProductMenu(self, response=None):
         # 세션 확인해서 로그인중이면 로그아웃만 뜨게해야함
         if self.__sessionId == -1:
@@ -353,25 +321,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("7. 회원 탈퇴")
         print("0. 종료")
 
-    def __printProductList(self, response):
-        print('\033[31m \033[107m'+"[][] 상품 목록 [][]"+'\033[0m')
-        try:
-            for i in response:
-                print(f"id: {i['__productId']}, name: {i['__productName']}, price: {i['__productPrice']}")
-            self.__printProductMenu()
-        except Exception as e:
-            self.__printDefaultMenu()
-
-
-    def __printProductInfo(self, response=None):
-        print('\033[31m \033[107m'+"[][] 상품 조회 [][]"+'\033[0m')
-        self.__productId = response['__productId']
-        print("------------------------")
-        print(f"name : {response['__productName']}")
-        print(f"price : {response['__productPrice']}")
-        print(f"info : {response['__productInfo']}")
-        print("------------------------")
-
+    def __printProductInfoMenu(self):
         #세션 로그인 확인 필요
         if self.__sessionId == -1:
             print("1. 상품 목록")
@@ -394,30 +344,88 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("7. 회원탈퇴")
         print("0. 종료")
 
+    def __printOrderListMenu(self):
+
+        print("주문 내역 메뉴")
+        print("1. 주문 취소")
+        print("2. 상품 목록")
+        print("3. 로그아웃")
+        print("0. 종료")
+
+    def __setSessionId(self):
+        self.__session = Session()
+
+
+    def __printAccountLogin(self, response):
+        print(response['__message'])
+        sessionid = response['__sessionAccountId']
+        self.__sessionId = sessionid
+        Session().set_session_id(self.__sessionId)
+
+        checksessionid = self.__sessionId
+        print(f"sessionid: {checksessionid}")
+
+        self.__printDefaultMenu()
+
+    def __printAccountRegister(self, response):
+        print(response['__message'])
+        self.__printDefaultMenu()
+
+    def __printAccountLogout(self, response):
+        print(response['__message'])
+        self.__sessionId = -1
+        Session().set_session_id(self.__sessionId)
+        checksessionid = self.__sessionId
+        print(f"sessionid: {checksessionid}")
+        self.__printDefaultMenu()
+
+    def __printAccountDelete(self, response):
+        print(response['__message'])
+        self.__sessionId = -1
+        Session().set_session_id(self.__sessionId)
+        checksessionid = self.__sessionId
+        print(f"sessionid: {checksessionid}")
+        self.__printDefaultMenu()
+
+    def __printProductList(self, response):
+        print('\033[31m \033[107m'+"[][] 상품 목록 [][]"+'\033[0m')
+        try:
+            for i in response:
+                print(f"id: {i['__productId']}, name: {i['__productName']}, price: {i['__productPrice']}")
+            self.__printProductMenu()
+        except Exception as e:
+            self.__printDefaultMenu()
+
+
+    def __printProductInfo(self, response=None):
+        print('\033[31m \033[107m'+"[][] 상품 조회 [][]"+'\033[0m')
+        self.__productId = response['__productId']
+        print("------------------------")
+        print(f"name : {response['__productName']}")
+        print(f"price : {response['__productPrice']}")
+        print(f"info : {response['__productInfo']}")
+        print("------------------------")
+
+        self.__printProductInfoMenu()
 
     def __printProductAdd(self, response):
-        #response 에서 실패 성공 받아서 둘중하나 출력
-        print("상품 추가 완료")
-        print("상품 추가 실패")
+        print(response['__message'])
 
         self.__printProductMenu()
 
     def __printProductDelete(self, response):
-        #response 에서 실패 성공 받아서 둘중하나 출력
-        print("상품 삭제 성공")
-        print("상품 삭제 실패")
+        print(response['__message'])
 
         self.__printProductMenu()
 
     def __printProductEdit(self, response):
-        print("상품 수정 성공")
-        print("상품 수정 실패")
+        print(response['__message'])
+
         self.__printProductMenu()
 
         
     def __printOrderPurchase(self, response):
-        print("주문 성공")
-        print("주문 실패")
+        print(response['__message'])
 
         self.__printDefaultMenu()
 
@@ -427,17 +435,20 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         for i in response:
             print(f"name: {i['__productName']}, price: {i['__productPrice']}")
 
-        print("주문 내역 메뉴")
-        print("1. 주문 취소")
-        print("2. 상품 목록")
-        print("3. 로그아웃")
-        print("0. 종료")
+        self.__printOrderListMenu()
 
     def __printOrderDelete(self, response):
-        print("주문 취소 성공")
-        print("주문 취소 실패")
+        print(response['__message'])
 
         self.__printDefaultMenu()
+
+    def __printProgramClose(self, response):
+        if self.__sessionId != -1:
+            print("로그아웃")
+
+        print(response['__message'])
+        sys.exit()
+
 
     def __isResponseNotFalse(self, response):
         print("check response is bool")
