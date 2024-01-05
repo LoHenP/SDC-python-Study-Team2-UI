@@ -19,10 +19,10 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     # restrictUserInput
     __nothingLogout = [0, 3]
     __nothingNum = [0, 4]
-    __productMenuNum = [0, 7]
-    __productMenuLogout = [0, 2, 5, 7]
-    __productInfoNum = [0, 7]
-    __productInfoLogout = [0, 2, 5, 7]
+    __productMenuNum = [0, 8]
+    __productMenuLogout = [0, 3, 6, 8]
+    __productInfoNum = [0, 8]
+    __productInfoLogout = [0, 3, 6, 8]
     __orderList = [0, 3]
 
 
@@ -82,6 +82,8 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
     def restrictUserInput(self):
         CurrentRoutingState = self.acquireCurrentRoutingState()
         restrictChoice = [0, 10] # 임시
+        if CurrentRoutingState == ConsoleUiRoutingState.PROGRAM_CLOSE:
+            return 0
         if self.__sessionId == -1:
             if CurrentRoutingState == ConsoleUiRoutingState.NOTHING or \
                     CurrentRoutingState == ConsoleUiRoutingState.ACCOUNT_LOGIN or \
@@ -163,16 +165,18 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
                 if userChoice == 1:
                     return CustomProtocol.PRODUCT_INFO.value
                 if userChoice == 2:
-                    return CustomProtocol.PRODUCT_ADD.value
+                    return CustomProtocol.PRODUCT_LIST.value
                 if userChoice == 3:
-                    return CustomProtocol.PRODUCT_EDIT.value
+                    return CustomProtocol.PRODUCT_ADD.value
                 if userChoice == 4:
-                    return CustomProtocol.PRODUCT_DELETE.value
+                    return CustomProtocol.PRODUCT_EDIT.value
                 if userChoice == 5:
-                    return CustomProtocol.ORDER_LIST.value
+                    return CustomProtocol.PRODUCT_DELETE.value
                 if userChoice == 6:
-                    return CustomProtocol.ACCOUNT_LOGIN.value
+                    return CustomProtocol.ORDER_LIST.value
                 if userChoice == 7:
+                    return CustomProtocol.ACCOUNT_LOGIN.value
+                if userChoice == 8:
                     return CustomProtocol.ACCOUNT_REGISTER.value
                 if userChoice == 0:
                     return CustomProtocol.PROGRAM_CLOSE.value
@@ -217,19 +221,22 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
             if userChoice == 1:
                 return CustomProtocol.PRODUCT_INFO.value
             if userChoice == 2:
-                return CustomProtocol.PRODUCT_ADD.value
+                return CustomProtocol.PRODUCT_LIST.value
             if userChoice == 3:
-                return CustomProtocol.PRODUCT_EDIT.value
+                return CustomProtocol.PRODUCT_ADD.value
             if userChoice == 4:
-                return CustomProtocol.PRODUCT_DELETE.value
+                return CustomProtocol.PRODUCT_EDIT.value
             if userChoice == 5:
-                return CustomProtocol.ORDER_LIST.value
+                return CustomProtocol.PRODUCT_DELETE.value
             if userChoice == 6:
-                return CustomProtocol.ACCOUNT_LOGOUT.value
+                return CustomProtocol.ORDER_LIST.value
             if userChoice == 7:
+                return CustomProtocol.ACCOUNT_LOGOUT.value
+            if userChoice == 8:
                 return CustomProtocol.ACCOUNT_DELETE.value
             if userChoice == 0:
                 return CustomProtocol.PROGRAM_CLOSE.value
+
         if CurrentRoutingState == ConsoleUiRoutingState.PRODUCT_INFO:
             if userChoice == 1:
                 return CustomProtocol.PRODUCT_LIST.value
@@ -304,22 +311,24 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         # 세션 확인해서 로그인중이면 로그아웃만 뜨게해야함
         if self.__sessionId == -1:
             print("1. 상품 조회")
-            print("2. 상품 추가")
-            print("3. 상품 수정")
-            print("4. 상품 삭제")
-            print("5. 주문 내역")
-            print("6. 로그인")
-            print("7. 회원가입")
+            print("2. 상품 목록")
+            print("3. 상품 추가")
+            print("4. 상품 수정")
+            print("5. 상품 삭제")
+            print("6. 주문 내역")
+            print("7. 로그인")
+            print("8. 회원가입")
             print("0. 종료")
             return
 
         print("1. 상품 조회")
-        print("2. 상품 추가")
-        print("3. 상품 수정")
-        print("4. 상품 삭제")
-        print("5. 주문 내역")
-        print("6. 로그아웃")
-        print("7. 회원 탈퇴")
+        print("2. 상품 목록")
+        print("3. 상품 추가")
+        print("4. 상품 수정")
+        print("5. 상품 삭제")
+        print("6. 주문 내역")
+        print("7. 로그아웃")
+        print("8. 회원 탈퇴")
         print("0. 종료")
 
     def __printProductInfoMenu(self):

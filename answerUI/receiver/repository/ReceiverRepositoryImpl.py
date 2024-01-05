@@ -7,6 +7,7 @@ from receiver.repository.ReceiverRepository import ReceiverRepository
 
 class ReceiverRepositoryImpl(ReceiverRepository):
     __instance = None
+    __lengthHeaderSize = 8
 
     def __new__(cls):
         if cls.__instance is None:
@@ -26,20 +27,37 @@ class ReceiverRepositoryImpl(ReceiverRepository):
     def receiveCommand(self, clientSocketObject, lock, receiveQueue, finishQueue):
         clientSocket = clientSocketObject.getSocket()
         print(f"receiver: is it exist -> {clientSocket}")
-
+        getMoreData = True
         while True:
+            combineData = ""
+
             try:
-                # 소켓으로 전송된 데이터 수신
-                data = clientSocket.recv(2048)
+                while True:
 
-                if not data:
-                    clientSocket.closeSocket()
-                    break
+                    # 소켓으로 전송된 데이터 수신
+                    data = clientSocket.recv(2048)
+                    if not data:
+                        clientSocket.closeSocket()
+                        break
+                    combineData += data.decode()
+                    print(f"수신데이터 : {data.decode()}")
 
-                print(f'수신된 정보: {data.decode()}')
+                    if getMoreData:
+                        data_length = int(data[:self.__lengthHeaderSize])
+                        print(f"data_length: {data_length}")
+                        print(f"combineData_length: {len(combineData)}")
+                        getMoreData = False
 
-                receiveData = eval(data.decode())
-                receiveQueue.put(receiveData)
+                    if len(combineData) - self.__lengthHeaderSize == data_length:
+                        print(combineData[self.__lengthHeaderSize:])
+                        receiveData = eval(combineData[self.__lengthHeaderSize:])
+                        receiveQueue.put(receiveData)
+                        getMoreData = True
+                        break
+
+
+                    # print(f'수신된 정보: {data.decode()}')
+
 
                 try:
                     if receiveData['__protocolNumber'] == 0:
