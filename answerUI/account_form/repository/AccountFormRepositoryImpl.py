@@ -53,4 +53,5 @@ class AccountFormRepositoryImpl(AccountFormRepository):
         #     return
 
     def createProgramCloseForm(self):
+        print("프로그램을 종료합니다.")
         return

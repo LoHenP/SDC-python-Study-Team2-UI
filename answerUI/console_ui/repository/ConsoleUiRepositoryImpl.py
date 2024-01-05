@@ -1,3 +1,5 @@
+import sys
+
 from console_ui.entity.ConsoleUiRoutingState import ConsoleUiRoutingState
 from console_ui.entity.ConsoleUiState import ConsoleUiState
 from console_ui.entity.Session import Session
@@ -438,6 +440,14 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
         print("주문 취소 실패")
 
         self.__printDefaultMenu()
+
+    def __printProgramClose(self, response):
+        if self.__sessionId != -1:
+            print("로그아웃")
+
+        print("프로그램 종료")
+        sys.exit()
+
 
     def __isResponseNotFalse(self, response):
         print("check response is bool")

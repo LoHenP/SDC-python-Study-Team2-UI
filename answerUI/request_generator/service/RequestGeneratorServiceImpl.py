@@ -24,6 +24,7 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
             cls.__requestFormGenerationTable[CustomProtocol.ORDER_PURCHASE.value] = cls.__instance.generateOrderPurchaseRequest
             cls.__requestFormGenerationTable[CustomProtocol.ORDER_LIST.value] = cls.__instance.generateOrderListRequest
             cls.__requestFormGenerationTable[CustomProtocol.ORDER_DELETE.value] = cls.__instance.generateOrderDeleteRequest
+            cls.__requestFormGenerationTable[CustomProtocol.PROGRAM_CLOSE.value] = cls.__instance.generateProgramCloseRequest
 
 
         return cls.__instance
@@ -165,6 +166,15 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
 
     def generateOrderDeleteRequest(self, arguments, sessionId):
         print("RequestGeneratorService: order delete form")
+
+        orderRequestData = {
+            '__accountSessionId': sessionId[0]
+        }
+
+        return orderRequestData
+
+    def generateProgramCloseRequest(self, arguments, sessionId):
+        print("RequestGeneratorService: program close form")
 
         orderRequestData = {
             '__accountSessionId': sessionId[0]

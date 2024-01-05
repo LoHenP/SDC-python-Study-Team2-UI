@@ -19,3 +19,7 @@ class AccountFormRepository(abc.ABC):
     def AccountDeleteForm(self):
         pass
 
+    @abc.abstractmethod
+    def createProgramCloseForm(self):
+        pass
+
