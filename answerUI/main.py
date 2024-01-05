@@ -132,21 +132,25 @@ if __name__ == '__main__':
     lock = multiprocessing.Lock()
     transmitQueue = multiprocessing.Queue()
     receiveQueue = multiprocessing.Queue()
+    finishQueue = multiprocessing.Queue()
 
     taskManageService.createTransmitTask(lock, transmitQueue)
-    taskManageService.createReceiveTask(lock, receiveQueue)
+    taskManageService.createReceiveTask(lock, receiveQueue, finishQueue)
     taskManageService.createPrinterTask(transmitQueue, receiveQueue)
 
 
 
     while True:
         try:
-            sleep(5.0)
+            sleep(2.0)
+            status = finishQueue.get()
+            if status is True:
+                break
 
         except socket.error:
             sleep(0.5)
 
-
-    TaskManageRepositoryImpl.getInstance().endTask()
+    taskManageService.terminateTask()
     sys.exit(0)
+
 

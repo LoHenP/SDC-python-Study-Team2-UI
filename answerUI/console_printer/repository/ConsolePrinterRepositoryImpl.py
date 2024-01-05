@@ -37,11 +37,8 @@ class ConsolePrinterRepositoryImpl(ConsolePrinterRepository):
                 response = receiveQueue.get()
                 print(f"Received response: {response}")
                 print(f"type: {type(response)}")
-                evalresponse = eval(response)
-                print(f"evalresponse: {evalresponse}")
-                print(f"type: {type(evalresponse)}")
 
-                consoleUiService.printMenuResponse(evalresponse)
+                consoleUiService.printMenuResponse(response)
                 consoleUiService.processUserInput(transmitQueue)
             else:
                 sleep(0.5)

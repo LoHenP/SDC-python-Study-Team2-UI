@@ -1,3 +1,5 @@
+import sys
+
 from client_socket.repository.ClientSocketRepositoryImpl import ClientSocketRepositoryImpl
 from console_printer.repository.ConsolePrinterRepositoryImpl import ConsolePrinterRepositoryImpl
 from receiver.repository.ReceiverRepositoryImpl import ReceiverRepositoryImpl
@@ -9,6 +11,7 @@ from transmitter.repository.TransmitterRepositoryImpl import TransmitterReposito
 
 class TaskManageServiceImpl(TaskManageService):
     __instance = None
+
     # __lock = multiprocessing.Lock()
 
     def __new__(cls, repository):
@@ -39,13 +42,13 @@ class TaskManageServiceImpl(TaskManageService):
             args=(clientSocketRepository.getClientSocket(), lock, transmitQueue)
         )
 
-    def createReceiveTask(self, lock, receiveQueue):
+    def createReceiveTask(self, lock, receiveQueue, finishQueue):
         receiverRepository = ReceiverRepositoryImpl.getInstance()
         clientSocketRepository = ClientSocketRepositoryImpl.getInstance()
 
         self.__taskManageRepository.createTask(
             target=receiverRepository.receiveCommand,
-            args=(clientSocketRepository.getClientSocket(), lock, receiveQueue)
+            args=(clientSocketRepository.getClientSocket(), lock, receiveQueue, finishQueue)
         )
 
     def createPrinterTask(self, transmitQueue, receiveQueue):
@@ -53,5 +56,8 @@ class TaskManageServiceImpl(TaskManageService):
 
         self.__taskManageRepository.createTask(
             target=consolePrinterRepository.printConsoleUi,
-            args=(transmitQueue, receiveQueue, )
+            args=(transmitQueue, receiveQueue,)
         )
+
+    def terminateTask(self):
+        TaskManageRepositoryImpl.getInstance().endTask()
